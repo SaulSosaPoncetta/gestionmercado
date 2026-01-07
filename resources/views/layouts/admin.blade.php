@@ -19,6 +19,7 @@
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <div id="app">
         <div id="sidebar" class="active">
             <div class="sidebar-wrapper active">
@@ -144,6 +145,18 @@
     <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
 
     <script src="{{ asset('assets/js/main.js') }}"></script>
+
+    @if( ($mensaje = Session::get('mensaje')) && ($icono = Session::get('icono')) )
+        <script>
+        Swal.fire({
+            position: "top-end",
+            icon: "{{ $icono }}",
+            title: "{{ $mensaje }}",
+            showConfirmButton: false,
+            timer: 1500
+        });
+        </script>
+    @endif
 
 </body>
 

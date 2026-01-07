@@ -10,7 +10,7 @@
                     <div class="card-header">
                         <h4>Roles registrados</h4>
                         <hr>
-                        <a href="{{route('admin.roles.create')}}" style="float:right" class="btn btn-primary"><i class="bi bi-plus"></i> Crear nuevo</a>
+                        <a href="{{ route('admin.roles.create') }}" style="float:right" class="btn btn-primary"><i class="bi bi-plus"></i> Crear nuevo</a>
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered table-hover table-striped table-sm">
@@ -32,9 +32,9 @@
                                         <td style="text-align: center">{{ $nroreg++ }}</td>
                                         <td>{{ $rol->name }}</td>
                                         <td class="text-center">
-                                            <a href="" class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Ver</a>
-                                            <a href="" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Editar</a>
-                                            <form action="" method="POST" style="display:inline-block" enctype="multipart/form-data">
+                                            <a href="{{ route('admin.roles.show', $rol->id) }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Ver</a>
+                                            <a href="{{ route('admin.roles.edit', $rol->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Editar</a>
+                                            <form action="{{ route('admin.roles.destroy', $rol->id) }}" method="POST" style="display:inline-block" enctype="multipart/form-data">
                                                 @csrf
                                                 @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¡Seguro deseas eliminar el Rol?')">

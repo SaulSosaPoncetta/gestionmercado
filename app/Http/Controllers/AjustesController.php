@@ -27,7 +27,6 @@ class AjustesController extends Controller
         echo "hola aca va la view de alta";
     }
 
-
     public function store(Request $request)
     {
         $ajuste= Ajuste::first();
@@ -81,37 +80,27 @@ class AjustesController extends Controller
         }
         $ajuste->save();
         
-        echo "datos guardados ok";    
+        return redirect()->route('admin.ajustes.index')
+        ->with('mensaje', 'Cambios guardados correctamente')
+        ->with('icono', 'success');    
 
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Ajuste $ajuste)
     {
         echo "hola aca va la view de ver";
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Ajuste $ajuste)
     {
         echo "hola aca va la view de edicion";
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Ajuste $ajuste)
     {
         echo "hola aca va la view de actualizar";
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Ajuste $ajuste)
     {
         echo "hola aca va la view de delete";
