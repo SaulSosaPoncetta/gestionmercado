@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ajuste;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Ajuste;
 
 class AjustesController extends Controller
 {
@@ -29,7 +30,7 @@ class AjustesController extends Controller
 
     public function store(Request $request)
     {
-        $ajuste= Ajuste::first();
+        $ajuste= Ajuste::firstOrNew();
         //return response()->json($request->all());
         $rules =[
             'nombre' => 'required|string|max:255',

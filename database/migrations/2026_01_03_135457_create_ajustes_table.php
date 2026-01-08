@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('sucursal');
             $table->text('direccion');
             $table->string('telefono');
-            $table->string('logo');
-            $table->boolean('imagen_login');
-            $table->boolean('email');
-            $table->boolean('moneda');
-            $table->boolean('pagina_web')->nullable();
+            $table->string('logo')->nullable();;
+            $table->string('imagen_login')->nullable();;
+            $table->string('email');
+            $table->string('moneda');
+            $table->string('pagina_web')->nullable();
             
             $table->timestamps();
         });

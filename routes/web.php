@@ -6,11 +6,13 @@ Route::get('/', function () {return view('welcome');});
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class,'index'])
-    ->name('home');
+Route::get('/home', [App\Http\Controllers\AdminController::class,'index'])
+    ->name('home')
+    ->middleware('auth');
 
 Route::get('/admin', [App\Http\Controllers\AdminController::class,'index'])
-    ->name('admin')->middleware('auth');
+    ->name('admin')
+    ->middleware('auth');
 
 //--------------------------------------AJUSTES----------------------------------------
 //Rutas para la vista de ajustes
@@ -55,6 +57,41 @@ Route::delete('/admin/rol/{id}', [App\Http\Controllers\RoleController::class,'de
     ->name('admin.roles.destroy')
     ->middleware('auth');
 
+
+//--------------------------------------USUARIOS----------------------------------------
+
+// Rutas para la vista de USUARIOS
+Route::get('/admin/usuarios', [App\Http\Controllers\UsuarioController::class,'index'])
+    ->name('admin.usuarios.index')
+    ->middleware('auth');
+
+// Mostrar formulario
+Route::get('/admin/usuarios/create', [App\Http\Controllers\UsuarioController::class,'create'])
+    ->name('admin.usuarios.create')
+    ->middleware('auth');
+
+// Guardar (POST SIEMPRE va a /admin/usuarios)
+Route::post('/admin/usuarios', [App\Http\Controllers\UsuarioController::class,'store'])
+    ->name('admin.usuarios.store')
+    ->middleware('auth');
+
+Route::get('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::class,'show'])
+    ->name('admin.usuarios.show')
+    ->middleware('auth');
+
+Route::get('/admin/usuario/{id}/edit', [App\Http\Controllers\UsuarioController::class,'edit'])
+    ->name('admin.usuarios.edit')
+    ->middleware('auth');
+
+Route::put('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::class,'update'])
+    ->name('admin.usuarios.update')
+    ->middleware('auth');
+
+Route::delete('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::class,'destroy'])
+    ->name('admin.usuarios.destroy')
+    ->middleware('auth');
+
+    
 // Route::middleware('auth')->group(function () {
 // Route::resource('admin/roles', App\Http\Controllers\RoleController::class);
 // });

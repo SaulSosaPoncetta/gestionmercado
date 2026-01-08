@@ -40,51 +40,45 @@
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
-
-                        <li class="sidebar-item {{ request()->is('admin*') ? 'active' : ''}} " >
-                            <a href=" class='sidebar-link'>
-                                <i class="bi bi-house-fill"></i>
-                                <span>Inicio</span>
-                            </a>
-                        </li>
-
-                         <li class="sidebar-item {{ request()->is('admin/rol*') ? 'active' : ''}}">
+                        
+                        <li class="sidebar-item {{ request()->is('admin/rol*') ? 'active' : ''}}">
                             <a href="{{ url('/admin/roles') }}" class='sidebar-link'>
-                                <i class="bi bi-shield-lock-fill"></i></i>
+                                <i class="bi bi-shield-lock-fill"></i>
                                 <span>Roles</span>
                             </a>
                         </li>
-                        
+
+                        <li class="sidebar-item {{ request()->is('admin/usuario*') ? 'active' : ''}}">
+                            <a href="{{ url('/admin/usuarios') }}" class='sidebar-link'>
+                                <i class="bi bi-person-fill"></i>
+                                <span>Usuarios</span>
+                            </a>
+                        </li>  
+
                         <li class="sidebar-title">Ajustes</li>
- 
+
                         <li class="sidebar-item {{ request()->is('admin/ajuste*') ? 'active' : ''}}">
                             <a href="{{ url('/admin/ajustes') }}" class='sidebar-link'>
                                 <i class="bi bi-gear-fill"></i>
                                 <span>Configuracion</span>
                             </a>
-                        </li>
-
-                        <li class="sidebar-title">Usuario</li>
-
-                        <li class="sidebar-title has-sub">
+                        </li>  
+                        
+                        <!-- <li class="sidebar-title has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-person-circle"></i>
                                 <span>({{Auth::user()->name}})</span>
                             </a>
 
-                            <ul class="sub-menu">
-                                <li class="sub-menu-item">                                
+                        <ul class="sub-menu">
+                            <li class="sub-menu-item">                                
                                     <a href="account-profile.html" class="sub-menu-link">Perfil</a>
                                 </li>
                                  <li class="sub-menu-item">                                
                                     <a href="account-security.html" class="sub-menu-link">Seguridad</a>
                                 </li>
 
-                                <li class="sub-menu-item">
-                                    <a href="{{ route('logout')}}" class="sub-menu-link">
-                                        onclick="event.preventDefault();document.getElementById('logout-form').submit();">Cerrar Sesion</a>
-                                    <form id="logout-form" action="{{ route('logout')}}" method="POST" 
-                                    style="display:none;">
+                                <form id="logout-form" action="{{ route('logout')}}" method="POST" style="display:none;">-->
                                         @csrf
                                         @method('POST')
                                     </form>
@@ -99,45 +93,32 @@
                         <li class="d-none">
                             
                         </li>
-                        <li class="sidebar-item">
-                            <a href="{{ url('/admin') }}" class='sidebar-link'>
-                                <i class="bi "></i>
-                                <span>Cerrar Sesion</span>
-                            </a>
-                        </li>
-                </ul>
+                    </ul>
                 </div>
               <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
             </div>
         </div>
-        <div id="main">
-            <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
-            </header>
-
-            <div class="page-heading">
+        
+        
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+    
+        </header>
+        <div class="page-heading">
                 <h3>Bienvenidos a miGestion</h3>
-            </div>
-            <div class="page-content">
-                @yield('content')
-            </div>
-
-            {{--<footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                        <p>2021 &copy; Mazer</p>
-                    </div>
-                    <div class="float-end">
-                        <p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a
-                                href="http://ahmadsaugi.com">A. Saugi</a></p>
-                    </div>
-                </div>
-            </footer>
-            --}}
         </div>
+        <div class="page-content">
+                @yield('content')
+        </div>
+
+        {{--<footer>
+            
+        </footer> --}}
     </div>
+</div>
     <script src="{{ asset('assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 
