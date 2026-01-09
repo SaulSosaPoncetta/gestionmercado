@@ -91,7 +91,9 @@ Route::delete('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::cl
     ->name('admin.usuarios.destroy')
     ->middleware('auth');
 
-    
+Route::post('/admin/usuario/{id}/restaurar', [App\Http\Controllers\UsuarioController::class,'restore'])
+    ->name('admin.usuarios.restore')
+    ->middleware('auth');
 // Route::middleware('auth')->group(function () {
 // Route::resource('admin/roles', App\Http\Controllers\RoleController::class);
 // });

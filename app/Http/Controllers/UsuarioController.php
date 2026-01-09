@@ -12,8 +12,10 @@ class UsuarioController extends Controller
     public function index(Request $request)
     {
         $buscar = $request->get('buscar');
+        $query = User::whereDoesntHave('roles', function($q) {
+            $q->where('name', 'SUPER ADMIN');
+        })->withTrashed();
 
-        $query = User::query();
         if($buscar){
             $query->where('name', 'like', '%'.$buscar.'%')
                 ->orWhere('email', 'like', '%'.$buscar.'%');
@@ -57,14 +59,14 @@ class UsuarioController extends Controller
     // Muestra los datos de un usuario
     public function show($id)
     {
-        $usuario = User::find($id);
+        $usuario = User::withTrashed()->findOrFail($id);
         return view('admin.usuarios.show', compact('usuario'));
     }
 
     // Muestra el formulario y trae los datos para editar un usuario
     public function edit($id)
     {
-        $usuario = User::find($id);
+        $usuario = User::withTrashed()->findOrFail($id);
         $roles = Role::all();
         return view('admin.usuarios.edit', compact('usuario', 'roles'));
     }
@@ -79,7 +81,7 @@ class UsuarioController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'password' => 'nullable|string|min:9|confirmed',
         ]);
-        $usuario = User::find($id);
+        $usuario = User::withTrashed()->findOrFail($id);
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         if($request->password){
@@ -97,13 +99,26 @@ class UsuarioController extends Controller
     // Elimina un usuario
     public function destroy($id)
     {
-        $usuario = User::find($id);
+        $usuario = User::findOrFail($id);
         $usuario->estado = false;
         $usuario->save();
         $usuario->delete();
 
         return redirect()->route('admin.usuarios.index')
             ->with('mensaje','Usuario eliminado exitosamente')
+            ->with('icono','success');
+    }
+
+    // Restaura un usuario (activa)
+    public function restore($id)
+    {
+        $usuario = User::onlyTrashed()->findOrFail($id);
+        $usuario->restore();
+        $usuario->estado = true;
+        $usuario->save();
+       
+        return redirect()->route('admin.usuarios.index')
+            ->with('mensaje','Usuario restaurado exitosamente')
             ->with('icono','success');
     }
 }

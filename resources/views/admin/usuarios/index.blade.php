@@ -34,6 +34,9 @@
                                     <th style="text-align: center">Rol del Usuario</th>
                                     <th style="text-align: center">Nombre del Usuario</th>
                                     <th style="text-align: center">Email</th>
+                                    <th style="text-align: center">Tipo</th>
+                                    <th style="text-align: center">Nro Cliente</th>
+                                    <th style="text-align: center">Estado</th>
                                     <th style="text-align: center">Acciones</th>
                                 </tr>
                             </thead>
@@ -47,21 +50,31 @@
                                          <td>{{ $usuario->roles->pluck('name')->implode(', ') }}</td>
                                          <td>{{ $usuario->name }}</td>
                                          <td>{{ $usuario->email }}</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('admin.usuarios.show', $usuario->id) }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Ver</a>
-                                            <a href="{{ route('admin.usuarios.edit', $usuario->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Editar</a>
-                                            <form action="{{ route('admin.usuarios.destroy', $usuario->id) }}" 
-                                                method="POST"
-                                                id="miFormulario{{ $usuario->id }}" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" 
+                                         <td>{{ $usuario->tipo }}</td>
+                                         <td>{{ $usuario->numero_cliente }}</td>
+                                         <td>
+                                            @if($usuario->estado == 0)                              
+                                                <span class="badge bg-danger">Inactivo</span>
+                                            @else
+                                                <span class="badge bg-success">Activo</span>
+                                            @endif
+                                         </td>
+                                                                                                            
+                                        <td class="text-center"> 
+                                            @if ($usuario->estado == 1) 
+                                                <a href="{{ route('admin.usuarios.show', $usuario->id) }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Ver</a>
+                                                <a href="{{ route('admin.usuarios.edit', $usuario->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Editar</a>
+                                                <form action="{{ route('admin.usuarios.destroy', $usuario->id) }}" method="POST"
+                                                     id="miFormulario{{ $usuario->id }}" class="d-inline">
+                                                     @csrf
+                                                     @method('DELETE')
+                                                     <button type="submit" 
                                                         class="btn btn-danger btn-sm" 
                                                         onclick="preguntar{{ $usuario->id }}(event)">
                                                         <i class="bi bi-trash"></i> Eliminar 
-                                                </button>
-                                            </form>
-                                            <script>
+                                                     </button>
+                                                </form>
+                                                <script>
                                                 function preguntar{{ $usuario->id }}(event) {
                                                     event.preventDefault();
 
@@ -80,6 +93,38 @@
                                                     });
                                                 }
                                             </script>
+                                        @else
+                                            <form action="{{ route('admin.usuarios.restore', $usuario->id) }}" method="POST"
+                                                     id="miFormulario{{ $usuario->id }}" class="d-inline">
+                                                     @csrf
+                                                     <button type="submit" class="btn btn-warning btn-sm" 
+                                                        onclick="preguntar{{ $usuario->id }}(event)">
+                                                        <i class="bi bi-arrow-clockwise"></i> Restaurar
+                                                     </button>
+                                                </form>
+                                                <script>
+                                                function preguntar{{ $usuario->id }}(event) {
+                                                    event.preventDefault();
+
+                                                    Swal.fire({
+                                                        title: '¿Desea restaurar este Usuario?',
+                                                        icon: 'question',
+                                                        showCancelButton: true,
+                                                        confirmButtonText: 'Restaurar',
+                                                        cancelButtonColor: '#a5161d',
+                                                        denyButtonColor: '#270a0a',
+                                                        denyButtonText: 'Cancelar',
+                                                    }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        document.getElementById('miFormulario{{ $usuario->id }}').submit();
+                                                        }
+                                                    });
+                                                }
+                                            </script>
+                                        @endif
+                                        
+                                            
+                                            
                                         </td>
                                     </tr>
                                 @endforeach
@@ -87,9 +132,8 @@
                         @if($usuarios->hasPages())
                             <div class="d-flex justify-content-between align-items-center mt-4 px-3">
                                 <div class="text-muted">
-                                    Mostrando {{ $usuario->firstItem() }} a {{ $usuario->lastItem() }} de {{ $usuario->total() }} resultados
-                                </div>
-                                {{ $usuario->links('pagination::bootstrap-4') }}
+                                    Mostrando {{ $usuarios->firstItem() }} a {{ $usuarios->lastItem() }} de {{ $usuarios->total() }} resultados
+                                    {{ $usuarios->links('pagination::bootstrap-4') }}</div>
                             </div>
                         @endif
                     </div>
