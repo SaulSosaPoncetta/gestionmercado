@@ -15,12 +15,18 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        Role::create(['name' => 'super admin','guard_name' => 'web']);
+        Role::create(['name' => 'administrador','guard_name' => 'web']);
+        Role::create(['name' => 'vendedor','guard_name' => 'web']);
+        Role::create(['name' => 'contabilidad','guard_name' => 'web']);   
+        Role::create(['name' => 'operador','guard_name' => 'web']); 
+        Role::create(['name' => 'cliente','guard_name' => 'web']);
 
         User::create([
-            'name' => 'admin',
+            'name' => 'Saul Sosa',
             'email' => 'admin@migestion.com.ar',
             'password' => bcrypt('123456789'),
-        ]);
+        ])->assignRole('super admin');
 
         Ajuste::create([
             'nombre' => 'Eloisa',
@@ -28,17 +34,12 @@ class DatabaseSeeder extends Seeder
             'sucursal' => 'Olavarria',
             'direccion' => 'Hornos 3178',
             'telefono' => '2284-214010',   
-            
             'email' => 'eloisa@migestion.com.ar',
             'moneda' => 'ARS',
             'pagina_web' => 'https://www.eloisa.com.ar',
         ]);
 
-        Role::create(['name' => 'admin','guard_name' => 'web']);
-        Role::create(['name' => 'administrador','guard_name' => 'web']);
-        Role::create(['name' => 'vendedor','guard_name' => 'web']);
-        Role::create(['name' => 'contabilidad','guard_name' => 'web']);   
-        Role::create(['name' => 'operador','guard_name' => 'web']);   
+  
     
     }
 }

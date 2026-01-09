@@ -4,42 +4,106 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 
 class UsuarioController extends Controller
 {
-    public function index()
+    // Muestra la lista de usuarios
+    public function index(Request $request)
     {
-        $usuarios = User::paginate(10);
+        $buscar = $request->get('buscar');
+
+        $query = User::query();
+        if($buscar){
+            $query->where('name', 'like', '%'.$buscar.'%')
+                ->orWhere('email', 'like', '%'.$buscar.'%');
+        }
+
+        $usuarios = $query->paginate(10);
         return view('admin.usuarios.index', compact('usuarios'));
     }
 
+    // Muestra el formulario para crear un nuevo usuario
     public function create()
     {
-        //
+        $roles = Role::all();
+        return view('admin.usuarios.create', compact('roles'));
     }
 
+    // Guarda los datos del nuevo usuario
     public function store(Request $request)
     {
-        //
+       //return response()->json($request->all());
+       $request->validate([
+            'rol' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:9|confirmed',
+        ]);
+
+        $usuario = new User();
+        $usuario->name = $request->name;
+        $usuario->email = $request->email;
+        $usuario->password = bcrypt($request->password);
+        $usuario->save();   
+
+        $usuario->assignRole($request->rol);
+
+        return redirect()->route('admin.usuarios.index')
+            ->with('mensaje','Usuario creado exitosamente')
+            ->with('icono','success');
     }
 
-    public function show(string $id)
+    // Muestra los datos de un usuario
+    public function show($id)
     {
-        //
+        $usuario = User::find($id);
+        return view('admin.usuarios.show', compact('usuario'));
     }
 
-    public function edit(string $id)
+    // Muestra el formulario y trae los datos para editar un usuario
+    public function edit($id)
     {
-        //
+        $usuario = User::find($id);
+        $roles = Role::all();
+        return view('admin.usuarios.edit', compact('usuario', 'roles'));
     }
 
-    public function update(Request $request, string $id)
+    // Actualiza los datos del usuario tomando los mismos del form ulario edit
+    public function update(Request $request, $id)
     {
-        //
-    }
+        //return response()->json($request->all());
+        $request->validate([
+            'rol' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'password' => 'nullable|string|min:9|confirmed',
+        ]);
+        $usuario = User::find($id);
+        $usuario->name = $request->name;
+        $usuario->email = $request->email;
+        if($request->password){
+            $usuario->password = bcrypt($request->password);
+        }
+        
+        $usuario->save();
+        
+        $usuario->syncRoles($request->rol);
 
-    public function destroy(string $id)
+        return redirect()->route('admin.usuarios.index')
+            ->with('mensaje','Usuario actualizado exitosamente')
+            ->with('icono','success');
+    }
+    // Elimina un usuario
+    public function destroy($id)
     {
-        //
+        $usuario = User::find($id);
+        $usuario->estado = false;
+        $usuario->save();
+        $usuario->delete();
+
+        return redirect()->route('admin.usuarios.index')
+            ->with('mensaje','Usuario eliminado exitosamente')
+            ->with('icono','success');
     }
 }
