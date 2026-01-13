@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Ajuste;
 use App\Models\Role;
+use App\Models\Categoria;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -38,6 +39,9 @@ class DatabaseSeeder extends Seeder
             'moneda' => 'ARS',
             'pagina_web' => 'https://www.eloisa.com.ar',
         ]);
+
+        Categoria::factory(15)->create();
+
 
   
     

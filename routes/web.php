@@ -94,6 +94,45 @@ Route::delete('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::cl
 Route::post('/admin/usuario/{id}/restaurar', [App\Http\Controllers\UsuarioController::class,'restore'])
     ->name('admin.usuarios.restore')
     ->middleware('auth');
+
+//--------------------------------------CATEGORIAS----------------------------------------
+
+// Guardar (POST SIEMPRE va a /admin/categorias)
+Route::get('/admin/categorias', [App\Http\Controllers\CategoriaController::class,'index'])
+    ->name('admin.categorias.index')
+    ->middleware('auth');
+//Ruta para crear una nueva categoria
+Route::get('/admin/categorias/create', [App\Http\Controllers\CategoriaController::class,'create'])
+    ->name('admin.categorias.create')
+    ->middleware('auth');
+//Ruta para guardar los datos de la categoria creada o editada
+Route::post('/admin/categorias', [App\Http\Controllers\CategoriaController::class,'store'])
+    ->name('admin.categorias.store')
+    ->middleware('auth');
+//Ruta para mostrar los datos de una categoria por id
+Route::get('/admin/categorias/{id}', [App\Http\Controllers\CategoriaController::class,'show'])
+    ->name('admin.categorias.show')
+    ->middleware('auth');
+//Ruta para editar una categoria por id
+Route::get('/admin/categorias/{id}/edit', [App\Http\Controllers\CategoriaController::class,'edit'])
+    ->name('admin.categorias.edit')
+    ->middleware('auth');
+//Ruta para actualizar los datos de una categoria por id
+Route::put('/admin/categorias/{id}', [App\Http\Controllers\CategoriaController::class,'update'])
+    ->name('admin.categorias.update')
+    ->middleware('auth');
+//Ruta para eliminar una categoria por id
+Route::delete('/admin/categorias/{id}', [App\Http\Controllers\CategoriaController::class,'destroy'])
+    ->name('admin.categorias.destroy')
+    ->middleware('auth');
+//Ruta para restaurar una categoria por id solo si es soft delete y esta inactiva
+Route::post('/admin/categorias/{id}/restaurar', [App\Http\Controllers\CategoriaController::class, 'restore'])
+    ->name('admin.categorias.restore')
+    ->middleware('auth');
+
+
+
+
 // Route::middleware('auth')->group(function () {
 // Route::resource('admin/roles', App\Http\Controllers\RoleController::class);
 // });

@@ -14,7 +14,8 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-12">
+                                <hr>
                                 <form action="{{ route('admin.usuarios.index') }}" method="GET" class="mt-3">
                                     <div class="input-group">
                                         <input type="text" name="buscar" class="form-control" placeholder="Buscar..." value="{{ request('buscar') ?? ''}}">
@@ -26,7 +27,8 @@
                                     </div>
                                 </form>
                             </div>
-                        </div>    
+                        </div>
+                        <hr>    
                         <table class="table table-bordered table-hover table-striped table-sm">
                             <thead>
                                 <tr>

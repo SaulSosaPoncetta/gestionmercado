@@ -60,6 +60,13 @@
                                 <i class="bi bi-person-fill"></i>
                                 <span>Usuarios</span>
                             </a>
+                        </li> 
+                        
+                        <li class="sidebar-item {{ request()->is('admin/categoria*') ? 'active' : ''}}">
+                            <a href="{{ url('/admin/categorias') }}" class='sidebar-link'>
+                                <i class="bi bi-tags"></i>
+                                <span>Categorias</span>
+                            </a>
                         </li>  
 
                         <li class="sidebar-title">Ajustes</li>
