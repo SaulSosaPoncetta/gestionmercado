@@ -1,0 +1,166 @@
+@extends('layouts.admin')
+
+@section('content')
+    <h1>Producto: {{ $producto->nombre }}
+        <div class="form-group" style="float:right;">
+            <a href="{{ route('admin.productos.index') }}" class="btn btn-primary">Volver</a>
+        </div>
+    </h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Detalle del producto seleccionado:</h4>
+                    <br>
+                    <hr>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-goup">
+                                <label for="name" class="form-label">Categoria</label>
+                                <p><i class="bi bi-tags"></i> {{ $producto->categoria->nombre }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-goup">
+                                <label for="name" class="form-label">Nombre</label>
+                                <p><i class="bi bi-tags"></i> {{ $producto->nombre }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-goup">
+                                <label for="name" class="form-label">Codigo </label>
+                                <p><i class="bi bi-tags"></i> {{ $producto->codigo }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-goup">
+                                <label for="descripcion_corta" class="form-label">Descripcion Corta</label>
+                                <p><i class="bi bi-tags"></i> {{ $producto->descripcion_corta }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-goup">
+                                <label for="descripcion_larga">Descripcion Larga</label>
+                                <p><i class="bi bi-tags"></i> {!! $producto->descripcion_larga !!}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-goup">
+                                <label for="name" class="form-label">Precio de compra </label>
+                                <p><i class="bi bi-tags"></i> {{ $producto->precio_compra }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-goup">
+                                <label for="name" class="form-label">Precio de venta</label>
+                                <p><i class="bi bi-tags"></i> {{ $producto->precio_venta }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-goup">
+                                <label for="name" class="form-label">Stock</label>
+                                <p><i class="bi bi-tags"></i> {{ $producto->stock }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Imagenes del producto
+                        <!-- Button trigger modal -->
+                        <div style="float:right;">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Cargar imagenes
+                            </button>
+                        </div>
+                    </h4>
+                    <hr>
+                </div>
+                <div class="card-body">
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Cargar Imagen del producto</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    ...<div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-goup">
+                                                    <label for="imagen" class="form-label">Imagen del producto(*)</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="bi bi-image"></i></span>
+                                                        <input type="file" name="imagen" id="imagen"
+                                                            onchange="mostrarImagen(event)"
+                                                            class="form-control @error('imagen') is-invalid @enderror"
+                                                            accept="image/*" required>
+                                                        @error('imagen')
+                                                            <div class="invalid-feedback"><strong>{{ $message }}</strong>
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <center>                                                   
+                                                        <img src="" id="preview" alt="Imagen del producto"
+                                                        style="max-width: 300px; margin-top:10px;" />                                                   
+                                                </center>
+                                                <br>
+                                                <script>
+                                                    const mostrarImagen = e =>
+                                                        document.getElementById('preview').src = URL.createObjectURL(e.target.files[0]);
+                                                </script>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+@endsection

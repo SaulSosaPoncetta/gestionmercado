@@ -130,8 +130,53 @@ Route::post('/admin/categorias/{id}/restaurar', [App\Http\Controllers\CategoriaC
     ->name('admin.categorias.restore')
     ->middleware('auth');
 
+//--------------------------------------PRODUCTOS----------------------------------------
+
+// Guardar (POST SIEMPRE va a /admin/productos)
+Route::get('/admin/productos', [App\Http\Controllers\ProductoController::class,'index'])
+    ->name('admin.productos.index')
+    ->middleware('auth');
+//Ruta para crear un nuevo producto
+Route::get('/admin/productos/create', [App\Http\Controllers\ProductoController::class,'create'])
+    ->name('admin.productos.create')
+    ->middleware('auth');
+//Ruta para guardar los datos del producto creado o editado
+Route::post('/admin/productos', [App\Http\Controllers\ProductoController::class,'store'])
+    ->name('admin.productos.store')
+    ->middleware('auth');
+//Ruta para mostrar los datos de un producto por id
+Route::get('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'show'])
+    ->name('admin.productos.show')
+    ->middleware('auth');
+
+//Ruta para subir imagenes
+Route::post('/admin/productos/{id}/imagenes', [App\Http\Controllers\ProductoController::class, 'cargaImagenes'])
+    ->name('admin.productos.cargaImagenes')
+    ->middleware('auth');
+//Ruta para mostrar imagenes de un producto por id
+Route::get('/admin/productos/{id}/imagenes', [App\Http\Controllers\ProductoController::class, 'showImagenes'])
+    ->name('admin.productos.show')
+    ->middleware('auth');
 
 
+//Ruta para editar un producto por id
+Route::get('/admin/productos/{id}/edit', [App\Http\Controllers\ProductoController::class,'edit'])
+    ->name('admin.productos.edit')
+    ->middleware('auth');
+//Ruta para actualizar los datos de un producto por id
+Route::put('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'update'])
+    ->name('admin.productos.update')
+    ->middleware('auth');
+//Ruta para eliminar un producto por id
+Route::delete('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'destroy'])
+    ->name('admin.productos.destroy')
+    ->middleware('auth');
+//Ruta para restaurar un producto por id solo si es soft delete y esta inactivo
+Route::post('/admin/productos/{id}/restaurar', [App\Http\Controllers\ProductoController::class, 'restore'])
+    ->name('admin.productos.restore')
+    ->middleware('auth');
+
+    
 
 // Route::middleware('auth')->group(function () {
 // Route::resource('admin/roles', App\Http\Controllers\RoleController::class);

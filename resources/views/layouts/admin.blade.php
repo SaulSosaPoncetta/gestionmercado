@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>miGestion - eCommerce Dashboard</title>
+    <title>miGestion - eCommerce </title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
                             <a href="{{ url('/admin') }}">
                             <!-- <img src="assets/images/logo/logo.png" alt="Logo" srcset=""> --> </a>
                             <h2>miGestion</h2>
-                            <p>Dashboard</p>
+                            <p></p>
                             
                         </div>
                         <div class="toggler">
@@ -68,6 +68,12 @@
                                 <span>Categorias</span>
                             </a>
                         </li>  
+                                               <li class="sidebar-item {{ request()->is('admin/productos*') ? 'active' : ''}}">
+                            <a href="{{ url('/admin/productos') }}" class='sidebar-link'>
+                                <i class="bi bi-box-seam"></i>
+                                <span>Productos</span>
+                            </a>
+                        </li>
 
                         <li class="sidebar-title">Ajustes</li>
 
@@ -122,7 +128,7 @@
     
         </header>
         <div class="page-heading">
-                <h3>Bienvenidos a miGestion</h3>
+                <h3>e-Commerce </h3>
         </div>
         <div class="page-content">
                 @yield('content')

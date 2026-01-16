@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Ajuste;
 use App\Models\Role;
 use App\Models\Categoria;
+use App\Models\Producto;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -41,6 +42,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Categoria::factory(15)->create();
+        Producto::factory(50)->create();
 
 
   
