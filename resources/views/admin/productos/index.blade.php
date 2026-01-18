@@ -102,11 +102,7 @@
                                                 });
                                             }
                                         </script>
-
-
-
-
-                                    </td>
+                                  </td>
                                 </tr>
                             @endforeach
                     </table>
@@ -115,7 +111,8 @@
                             <div class="text-muted">
                                 Mostrando {{ $productos->firstItem() }} a {{ $productos->lastItem() }} de
                                 {{ $productos->total() }} resultados
-                                {{ $productos->links('pagination::bootstrap-4') }}</div>
+                                {{ $productos->links('pagination::bootstrap-4') }}
+                            </div>
                         </div>
                     @endif
                 </div>

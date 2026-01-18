@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\ProductoImagen;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
@@ -40,7 +42,7 @@ class ProductoController extends Controller
        
         //return response()->json($request->all());
         $request->validate([
-            'categoria_id' => 'required|exists:categorias,id',
+            
             'nombre' => 'required|string|max:255',
             'codigo' => 'required|string|max:50|unique:productos,codigo',
             'descripcion_corta' => 'required|string|max:500',
@@ -48,10 +50,11 @@ class ProductoController extends Controller
             'precio_compra' => 'required|numeric|min:0',
             'precio_venta' => 'required|numeric|min:0',
             'stock' => 'required|numeric|min:0',
+            'categoria_id' => 'required|exists:categorias,id',
             ]);
 
             $producto = new Producto();// instanciacion de un producto
-            $producto->categoria_id = $request->categoria_id;
+            
             $producto->nombre = $request->nombre;
             $producto->codigo = $request->codigo;
             $producto->descripcion_corta = $request->descripcion_corta;
@@ -59,6 +62,7 @@ class ProductoController extends Controller
             $producto->precio_compra = $request->precio_compra;
             $producto->precio_venta = $request->precio_venta;
             $producto->stock = $request->stock;
+            $producto->categoria_id = $request->categoria_id;
 
             $producto->save();
 
@@ -75,15 +79,54 @@ class ProductoController extends Controller
         return view('admin.productos.show', compact('producto'));
     }
 
-    //Funcion del controlador para mostrar imagenes de un producto por id
     
-    public function imagenes($id)
+    //Funcion del controlador para mostrar imagenes de un producto por id
+    public function showImagenes($id)
     {
-        $producto = Producto::findOrFail($id);
+        $producto = Producto::with('imagenes')->findOrFail($id);
         $imagenes = $producto->imagenes()->get();
-        return view('admin.productos.showImagenes', compact('producto', 'imagenes'));
+        return view('admin.productos.imagenes', compact('producto'));
     }
 
+    //Funcion del controlador para subir imagenes
+    public function cargaImagen(Request $request, $id)
+    {
+        $request->validate([
+            'imagen' => 'required|image|mimes:jpg,png,jpeg,gif,webp|max:2048',
+            ]);
+        $producto = Producto::findOrFail($id);
+
+        $imagenProducto = new ProductoImagen();
+        $imagenProducto->producto_id = $producto->id;
+        $rutaGuardarImagen = $request->file('imagen')->store('productos', 'public');
+        $imagenProducto->imagen = $rutaGuardarImagen;
+
+        $imagenProducto->save();
+
+        return redirect()->route('admin.productos.imagenes', ['producto' => $id])
+            ->with('mensaje', 'Imagen subida correctamente')
+            ->with('icono', 'success');
+    }
+
+    //Funcion del controlador para eliminar una imagen de un producto por id
+public function eliminaImagen($id)
+{
+    $imagenProducto = ProductoImagen::findOrFail($id);
+    $producto_id = $imagenProducto->producto_id;
+
+    // borrar archivo físico
+    if (Storage::disk('public')->exists($imagenProducto->imagen)) {
+        Storage::disk('public')->delete($imagenProducto->imagen);
+    }
+
+    // borrar registro BD
+    $imagenProducto->delete();
+
+    return redirect()
+        ->route('admin.productos.imagenes', $producto_id)
+        ->with('mensaje', 'Imagen eliminada correctamente')
+        ->with('icono', 'success');
+}
     //Funcion del controlador para editar un producto por id
     public function edit(Producto $producto)
     {

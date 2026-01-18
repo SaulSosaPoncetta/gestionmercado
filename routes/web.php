@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductoController;
 
 Route::get('/', function () {return view('welcome');});
 
@@ -141,24 +142,13 @@ Route::get('/admin/productos/create', [App\Http\Controllers\ProductoController::
     ->name('admin.productos.create')
     ->middleware('auth');
 //Ruta para guardar los datos del producto creado o editado
-Route::post('/admin/productos', [App\Http\Controllers\ProductoController::class,'store'])
+Route::post('/admin/productos/create', [App\Http\Controllers\ProductoController::class,'store'])
     ->name('admin.productos.store')
     ->middleware('auth');
 //Ruta para mostrar los datos de un producto por id
 Route::get('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'show'])
     ->name('admin.productos.show')
     ->middleware('auth');
-
-//Ruta para subir imagenes
-Route::post('/admin/productos/{id}/imagenes', [App\Http\Controllers\ProductoController::class, 'cargaImagenes'])
-    ->name('admin.productos.cargaImagenes')
-    ->middleware('auth');
-//Ruta para mostrar imagenes de un producto por id
-Route::get('/admin/productos/{id}/imagenes', [App\Http\Controllers\ProductoController::class, 'showImagenes'])
-    ->name('admin.productos.show')
-    ->middleware('auth');
-
-
 //Ruta para editar un producto por id
 Route::get('/admin/productos/{id}/edit', [App\Http\Controllers\ProductoController::class,'edit'])
     ->name('admin.productos.edit')
@@ -171,10 +161,22 @@ Route::put('/admin/productos/{id}', [App\Http\Controllers\ProductoController::cl
 Route::delete('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'destroy'])
     ->name('admin.productos.destroy')
     ->middleware('auth');
-//Ruta para restaurar un producto por id solo si es soft delete y esta inactivo
-Route::post('/admin/productos/{id}/restaurar', [App\Http\Controllers\ProductoController::class, 'restore'])
-    ->name('admin.productos.restore')
+
+//--------------------------------------IMAGENES PRODUCTOS----------------------------------------
+
+//Ruta para mostrar imagenes de un producto por id
+Route::get('/admin/productos/{producto}/imagenes', [App\Http\Controllers\ProductoController::class, 'showImagenes'])
+    ->name('admin.productos.imagenes')
     ->middleware('auth');
+//Ruta para subir imagenes
+Route::post('/admin/productos/{producto}/uploadimagen', [App\Http\Controllers\ProductoController::class, 'cargaImagen'])
+    ->name('admin.productos.uploadimagen')
+    ->middleware('auth');
+
+Route::delete('/admin/productos/imagen/{imagen}/eliminaimagen', [App\Http\Controllers\ProductoController::class, 'eliminaImagen'])
+    ->name('admin.productos.eliminaimagen')
+    ->middleware('auth');
+
 
     
 
