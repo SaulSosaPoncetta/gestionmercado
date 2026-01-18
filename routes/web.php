@@ -133,34 +133,41 @@ Route::post('/admin/categorias/{id}/restaurar', [App\Http\Controllers\CategoriaC
 
 //--------------------------------------PRODUCTOS----------------------------------------
 
-// Guardar (POST SIEMPRE va a /admin/productos)
+// Listar productos
 Route::get('/admin/productos', [App\Http\Controllers\ProductoController::class,'index'])
     ->name('admin.productos.index')
     ->middleware('auth');
-//Ruta para crear un nuevo producto
+
+// Crear producto
 Route::get('/admin/productos/create', [App\Http\Controllers\ProductoController::class,'create'])
     ->name('admin.productos.create')
     ->middleware('auth');
-//Ruta para guardar los datos del producto creado o editado
+
+// Guardar producto
 Route::post('/admin/productos/create', [App\Http\Controllers\ProductoController::class,'store'])
     ->name('admin.productos.store')
     ->middleware('auth');
-//Ruta para mostrar los datos de un producto por id
-Route::get('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'show'])
-    ->name('admin.productos.show')
-    ->middleware('auth');
-//Ruta para editar un producto por id
+
+// EDITAR → SIEMPRE ANTES DE {id}
 Route::get('/admin/productos/{id}/edit', [App\Http\Controllers\ProductoController::class,'edit'])
     ->name('admin.productos.edit')
     ->middleware('auth');
-//Ruta para actualizar los datos de un producto por id
+
+// MOSTRAR → SIEMPRE DESPUÉS
+Route::get('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'show'])
+    ->name('admin.productos.show')
+    ->middleware('auth');
+
+// Actualizar producto
 Route::put('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'update'])
     ->name('admin.productos.update')
     ->middleware('auth');
-//Ruta para eliminar un producto por id
+
+// Eliminar producto
 Route::delete('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'destroy'])
     ->name('admin.productos.destroy')
     ->middleware('auth');
+
 
 //--------------------------------------IMAGENES PRODUCTOS----------------------------------------
 

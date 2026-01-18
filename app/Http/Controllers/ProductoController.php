@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Producto;
 use App\Models\ProductoImagen;
 use App\Models\Categoria;
+use App\Models\Ajuste;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -13,6 +14,7 @@ class ProductoController extends Controller
     
     public function index(Request $request)
     {
+        $ajuste = Ajuste::first();
         $buscar = $request->get('buscar');
         $query = Producto::query();
 
@@ -24,7 +26,7 @@ class ProductoController extends Controller
         }
 
         $productos = $query->paginate(10);
-        return view('admin.productos.index', compact('productos'));
+        return view('admin.productos.index', compact('productos', 'ajuste'));
     }
 
     //Funcion del controlador para crear un producto
@@ -128,20 +130,71 @@ public function eliminaImagen($id)
         ->with('icono', 'success');
 }
     //Funcion del controlador para editar un producto por id
-    public function edit(Producto $producto)
+    public function edit($id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+        $categorias = Categoria::all();
+        return view('admin.productos.edit', compact('producto', 'categorias'));
+
     }
 
     //Funcion del controlador para actualizar los datos de un producto por id
-    public function update(Request $request, Producto $producto)
+    public function update(Request $request, $id)
     {
-        //
+        //return response()->json($request->all());
+        $request->validate([
+            
+            'nombre' => 'required|string|max:255',
+            'codigo' => 'required|string|max:50|unique:productos,codigo,' .$id,
+            'descripcion_corta' => 'required|string|max:500',
+            'descripcion_larga' => 'required|string',
+            'precio_compra' => 'required|numeric|min:0',
+            'precio_venta' => 'required|numeric|min:0',
+            'stock' => 'required|numeric|min:0',
+            'categoria_id' => 'required|exists:categorias,id',
+            ]);
+
+            $producto = Producto::findOrFail($id);// instanciacion de un producto
+            
+            $producto->nombre = $request->nombre;
+            $producto->codigo = $request->codigo;
+            $producto->descripcion_corta = $request->descripcion_corta;
+            $producto->descripcion_larga = $request->descripcion_larga;
+            $producto->precio_compra = $request->precio_compra;
+            $producto->precio_venta = $request->precio_venta;
+            $producto->stock = $request->stock;
+            $producto->categoria_id = $request->categoria_id;
+
+            $producto->save();
+
+            return redirect()
+                    ->route('admin.productos.index')
+                    ->with('mensaje', 'Producto actualizado correctamente')
+                    ->with('icono', 'success'); 
+
     }
 
     //Funcion del controlador para eliminar un producto por id
-    public function destroy(Producto $producto)
+    public function destroy($id)
     {
-        //
+        $producto = Producto::findOrFail($id);
+
+        // eliminar imagenes asociadas
+        foreach ($producto->imagenes as $imagen) {
+            if ($imagen->imagen && Storage::disk('public')->exists($imagen->imagen)) {
+                Storage::disk('public')->delete($imagen->imagen);
+            }
+            $imagen->delete();
+        }
+
+        // eliminar producto
+        $producto->delete();
+
+        return redirect()
+                ->route('admin.productos.index')
+                ->with('mensaje', 'Producto eliminado correctamente')
+                ->with('icono', 'success');
     }
+     
 }
+
