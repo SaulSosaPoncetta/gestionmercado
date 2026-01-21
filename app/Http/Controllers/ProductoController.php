@@ -195,6 +195,12 @@ public function eliminaImagen($id)
                 ->with('mensaje', 'Producto eliminado correctamente')
                 ->with('icono', 'success');
     }
-     
-}
 
+    //Funcion del controlador para mostrar detalle de un producto por id en la vista detalle del producto
+    public function detalle_producto($id)
+    {
+        $ajuste = Ajuste::first();
+        $producto = Producto::findOrFail($id);
+        return view('web.detalle_producto', compact('ajuste','producto'));
+    }
+}

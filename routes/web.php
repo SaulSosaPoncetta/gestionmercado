@@ -197,6 +197,10 @@ Route::delete('/admin/productos/imagen/{imagen}/eliminaimagen', [App\Http\Contro
 Route::get('/', [App\Http\Controllers\WebController::class,'index']) 
     ->name('web.index');
 
+Route::get('/producto/{id}', [App\Http\Controllers\ProductoController::class,'detalle_producto']) 
+    ->name('web.detalle_producto');
+
+
 // Route::middleware('auth')->group(function () {
 // Route::resource('admin/roles', App\Http\Controllers\RoleController::class);
 // });
