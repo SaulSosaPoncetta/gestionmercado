@@ -4,11 +4,14 @@
     <!-- Titulo de pagina -->
     <div class="page-title light-background">
       <div class="container d-lg-flex justify-content-between align-items-center">
-        <h1 class="mb-2 mb-lg-0">Detalle del producto</h1>
+        <h1 class="mb-2 mb-lg-0"> Detalle del producto:  {{$producto->nombre}}</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="{{url('/')}}">Inicio</a></li>
-            <li class="current">Detalle del producto</li>
+            <li><a href="{{url('/')}}">Inicio</a></li> 
+            
+            <!-- Enlace a la pagina de ventas -->
+            <!-- <li><a href="{{ route('web.carrito') }}"> Mis Ventas</a></li> -->
+          
           </ol>
         </nav>
       </div>
@@ -19,15 +22,22 @@
 
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row g-4">
-          <!-- galeria del producto -->
+        <div class="row g-4">  <!-- Galeria del producto -->
           <div class="col-lg-7" data-aos="zoom-in" data-aos-delay="150">
             <div class="product-gallery">
               <div class="main-showcase">
-                <div class="image-zoom-container">
-                  <img src="assets/img/product/product-details-6.webp" alt="Product Main" class="img-fluid main-product-image drift-zoom" id="main-product-image" data-zoom="assets/img/product/product-details-6.webp">
+                <div class="image-zoom-container"> <!-- Imagen container -->
+                    @php
+                        $imagen_producto = $producto->imagenes->first(); // Obtener la primera imagen del producto
+                        $imagen = $imagen_producto->imagen ?? ' '; // Obtener la ruta de la imagen del producto
+                    @endphp 
+                  <img src="{{ asset('storage/'.$imagen) }}"  
+                       alt="Product Main" 
+                       class="img-fluid main-product-image drift-zoom" 
+                       id="main-product-image" 
+                       data-zoom="{{ asset('storage/'.$imagen) }}">  <!-- imagen zoom -->
 
-                  <div class="image-navigation">
+                  <div class="image-navigation">  <!-- Navegacion de imagenes -->
                     <button class="nav-arrow prev-image image-nav-btn prev-image" type="button">
                       <i class="bi bi-chevron-left"></i>
                     </button>
@@ -38,7 +48,19 @@
                 </div>
               </div>
 
-              <div class="thumbnail-grid">
+              <!-- Miniaturas de la galeria DINAMICAS-->
+               <div class="thumbnail-grid">
+                @foreach ( $producto->imagenes as $item)
+                  <div class="thumbnail-wrapper thumbnail-item active" 
+                    data-image="{{ asset('storage/'.$item->imagen) }}">
+                    <img src="{{ asset('storage/'.$item->imagen) }}" alt="View {{$loop->iteration}}" alt="Product Thumbmail"
+                    class="img-fluid">
+                  </div>
+                @endforeach
+
+                <!-- iMAGENES ESTATICAS EN GALERIA DE PRODUCTOS -->
+                
+                <!--
                 <div class="thumbnail-wrapper thumbnail-item active" data-image="assets/img/product/product-details-6.webp">
                   <img src="assets/img/product/product-details-6.webp" alt="View 1" class="img-fluid">
                 </div>
@@ -56,16 +78,17 @@
                 </div>
                 <div class="thumbnail-wrapper thumbnail-item" data-image="assets/img/product/product-details-3.webp">
                   <img src="assets/img/product/product-details-3.webp" alt="View 6" class="img-fluid">
-                </div>
-              </div>
+                </div> -->
+              </div> 
+
             </div>
-          </div>
+          </div> 
 
           <!-- Product Details -->
           <div class="col-lg-5" data-aos="fade-left" data-aos-delay="200">
             <div class="product-details">
               <div class="product-badge-container">
-                <span class="badge-category">Categoria:</span>
+                <span class="badge-category">{{$producto->categoria->nombre}}</span> <!-- Categoria del producto -->
                 <div class="rating-group">
                   <div class="stars">
                     <i class="bi bi-star-fill"></i>
@@ -78,12 +101,12 @@
                 </div>
               </div>
 
-              <h1 class="product-name">Descripcion corta</h1>
+              <h1 class="product-name"> {{$producto->nombre}}</h1> <!-- Nombre del producto -->
 
               <div class="pricing-section">
                 <div class="price-display">
-                  <span class="sale-price">Precio Actual</span>
-                  <span class="regular-price">Precio anterior</span>
+                  <span class="sale-price">{{  $ajuste->moneda. ' '.$producto->precio_venta}}</span> <!-- Precio actual del producto -->
+                  <span class="regular-price">{{  $ajuste->moneda. ' '.$producto->precio_compra}}</span> <!-- Precio con descuento del producto -->
                 </div>
                 <div class="savings-info">
                   <span class="save-amount">Descuento: $50.00</span>
@@ -91,8 +114,8 @@
                 </div>
               </div>
 
-              <div class="product-description">
-                <p>Descripcion larga.</p>
+              <div class="product-description"> <!-- Descripcion corta del producto -->
+                <p>{{$producto->descripcion_corta}}</p> <!-- Descripcion larga del producto -->
               </div>
 
               <div class="availability-status">
@@ -100,7 +123,7 @@
                   <i class="bi bi-check-circle-fill"></i>
                   <span class="stock-text">Disponible</span>
                 </div>
-                <div class="quantity-left">Unicamente 18 unidades restantes</div>
+                <div class="quantity-left">Unicamente {{ $producto->stock }} unidades en stock</div>
               </div>
 
               <!-- Product Variants -->
@@ -134,7 +157,8 @@
                       <button class="quantity-btn decrease" type="button">
                         <i class="bi bi-dash"></i>
                       </button>
-                      <input type="number" class="quantity-input" value="1" min="1" max="18">
+                      <input type="number" class="quantity-input" value="1" min="1" 
+                          max="{{ $producto->stock }}"> <!-- Maximo segun stock del producto -->
                       <button class="quantity-btn increase" type="button">
                         <i class="bi bi-plus"></i>
                       </button>
@@ -143,17 +167,22 @@
                 </div>
 
                 <div class="action-buttons">
-                  <button class="btn primary-action">
+                  <a href="{{ route('web.carrito') }}" class="btn primary-action">
                     <i class="bi bi-bag-plus"></i>
                     Agregar al carrito
-                  </button>
-                  <button class="btn secondary-action">
+                  </a>
+
+                  <!-- Boton de comprar -->
+                  <!--<button class="btn secondary-action">  
                     <i class="bi bi-lightning"></i>
-                    Comprar ahora
-                  </button>
-                  <button class="btn icon-action" title="Add to Wishlist">
+                    Comprar Ahora
+                  </button> -->
+
+
+                  <!-- Boton de añadir a la lista de favoritos -->
+                  <a href="{{ route('web.dashboard') }}" class="btn icon-action" title="Add to Wishlist">
                     <i class="bi bi-heart"></i>
-                  </button>
+                  </a>
                 </div>
               </div>
 
@@ -179,15 +208,19 @@
             </div>
           </div>
         </div>
+        <br>
+        <div class="product-description">
+                <p>Descripcion: {{$producto->descripcion_larga}}</p> <!-- Descripcion larga del producto -->
+        </div>
 
         <!-- Information Tabs -->
         <div class="row mt-5" data-aos="fade-up" data-aos-delay="300">
           <div class="col-12">
             <div class="info-tabs-container">
               <nav class="tabs-navigation nav">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#ecommerce-product-details-5-overview" type="button">Visitas</button>
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ecommerce-product-details-5-technical" type="button">Detalles técnicos</button>
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ecommerce-product-details-5-customer-reviews" type="button">Reseñas (127)</button>
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#ecommerce-product-details-5-overview" type="button">Visitas</button> <!-- Boton de la pestaña de información de visitas -->
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ecommerce-product-details-5-technical" type="button">Detalles técnicos</button>  <!-- Boton de la pestaña de información técnica -->
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#ecommerce-product-details-5-customer-reviews" type="button">Reseñas (127)</button> <!-- Boton de la pestaña de información de reseñas -->
               </nav>
 
               <div class="tab-content">
@@ -197,29 +230,29 @@
                     <div class="row g-4">
                       <div class="col-lg-8">
                         <div class="content-section">
-                          <h3>Product Overview</h3>
+                          <h3>Descripción general del producto</h3>
                           <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
 
-                          <h4>Key Highlights</h4>
+                          <h4>Aspectos destacados</h4>
                           <div class="highlights-grid">
                             <div class="highlight-card">
                               <i class="bi bi-volume-up"></i>
-                              <h5>Superior Audio</h5>
+                              <h5>Audio Superior </h5>
                               <p>Ut enim ad minima veniam quis nostrum exercitationem</p>
                             </div>
                             <div class="highlight-card">
                               <i class="bi bi-battery-charging"></i>
-                              <h5>Long Battery</h5>
+                              <h5>Batería de larga duración</h5>
                               <p>Excepteur sint occaecat cupidatat non proident</p>
                             </div>
                             <div class="highlight-card">
                               <i class="bi bi-wifi"></i>
-                              <h5>Wireless Tech</h5>
+                              <h5>Tecnologia inalambrica</h5>
                               <p>Duis aute irure dolor in reprehenderit in voluptate</p>
                             </div>
                             <div class="highlight-card">
                               <i class="bi bi-person-check"></i>
-                              <h5>Comfort Fit</h5>
+                              <h5>Ajuste cómodo</h5>
                               <p>Lorem ipsum dolor sit amet consectetur adipiscing</p>
                             </div>
                           </div>
@@ -250,22 +283,22 @@
                     <div class="row g-4">
                       <div class="col-md-6">
                         <div class="tech-group">
-                          <h4>Audio Specifications</h4>
+                          <h4> Especificaciones de audio</h4>
                           <div class="spec-table">
                             <div class="spec-row">
-                              <span class="spec-name">Frequency Range</span>
+                              <span class="spec-name"> Rango de frecuencia</span>
                               <span class="spec-value">15Hz - 25kHz</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Driver Diameter</span>
+                              <span class="spec-name"> Diámetro del motor</span>
                               <span class="spec-value">50mm Dynamic</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Sensitivity</span>
+                              <span class="spec-name"> Sensibilidad</span>
                               <span class="spec-value">98dB SPL</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Impedance</span>
+                              <span class="spec-name"> Impedancia</span>
                               <span class="spec-value">24 Ohm</span>
                             </div>
                             <div class="spec-row">
@@ -278,27 +311,27 @@
 
                       <div class="col-md-6">
                         <div class="tech-group">
-                          <h4>Connectivity &amp; Power</h4>
+                          <h4>Conectividad y energía</h4>
                           <div class="spec-table">
                             <div class="spec-row">
-                              <span class="spec-name">Wireless Protocol</span>
+                              <span class="spec-name">Protocolo inalámbrico</span>
                               <span class="spec-value">Bluetooth 5.3</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Range</span>
-                              <span class="spec-value">Up to 30ft (10m)</span>
+                              <span class="spec-name">Rango</span>
+                              <span class="spec-value">Hasta 30ft (10m)</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Battery Capacity</span>
+                              <span class="spec-name"> Capacidad de la batería</span>
                               <span class="spec-value">800mAh Li-ion</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Usage Time</span>
-                              <span class="spec-value">35+ hours</span>
+                              <span class="spec-name"> Tiempo de uso</span>
+                              <span class="spec-value">35+ horas</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Charge Time</span>
-                              <span class="spec-value">2.5 hours</span>
+                              <span class="spec-name"> Tiempo de carga</span>
+                              <span class="spec-value">2.5 horas</span>
                             </div>
                           </div>
                         </div>
@@ -306,23 +339,23 @@
 
                       <div class="col-md-6">
                         <div class="tech-group">
-                          <h4>Physical Dimensions</h4>
+                          <h4> Dimensiones físicas</h4>
                           <div class="spec-table">
                             <div class="spec-row">
-                              <span class="spec-name">Weight</span>
+                              <span class="spec-name">Peso</span>
                               <span class="spec-value">285g</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Dimensions</span>
+                              <span class="spec-name">Dimensiones</span>
                               <span class="spec-value">190 x 165 x 82mm</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Ear Cup Material</span>
+                              <span class="spec-name">Material de las orejeras</span>
                               <span class="spec-value">Memory Foam</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Headband</span>
-                              <span class="spec-value">Adjustable Steel</span>
+                              <span class="spec-name">Banda de cabeza</span>
+                              <span class="spec-value">Acero ajustable</span>
                             </div>
                           </div>
                         </div>
@@ -330,22 +363,22 @@
 
                       <div class="col-md-6">
                         <div class="tech-group">
-                          <h4>Advanced Features</h4>
+                          <h4>Funciones avanzadas</h4>
                           <div class="spec-table">
                             <div class="spec-row">
-                              <span class="spec-name">Noise Cancellation</span>
+                              <span class="spec-name">Cancelación de ruido</span>
                               <span class="spec-value">Hybrid ANC</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Voice Assistant</span>
+                              <span class="spec-name">Asistente de voz</span>
                               <span class="spec-value">Siri &amp; Google</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Microphone Type</span>
+                              <span class="spec-name">Tipo de micrófono</span>
                               <span class="spec-value">Dual Array</span>
                             </div>
                             <div class="spec-row">
-                              <span class="spec-name">Water Rating</span>
+                              <span class="spec-name">Calificación del agua</span>
                               <span class="spec-value">IPX5</span>
                             </div>
                           </div>
@@ -369,7 +402,7 @@
                             <i class="bi bi-star-fill"></i>
                             <i class="bi bi-star-half"></i>
                           </div>
-                          <div class="total-reviews">127 customer reviews</div>
+                          <div class="total-reviews">127 opiniones de clientes</div>
                         </div>
 
                         <div class="rating-distribution">
@@ -441,8 +474,8 @@
                           <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam. Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
                         </div>
                         <div class="review-actions">
-                          <button class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Helpful (12)</button>
-                          <button class="action-btn"><i class="bi bi-chat-dots"></i> Reply</button>
+                          <button class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Útil (12)</button>
+                          <button class="action-btn"><i class="bi bi-chat-dots"></i> Respuesta</button>
                         </div>
                       </div>
 
@@ -468,8 +501,8 @@
                           <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Overall satisfied with the purchase.</p>
                         </div>
                         <div class="review-actions">
-                          <button class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Helpful (8)</button>
-                          <button class="action-btn"><i class="bi bi-chat-dots"></i> Reply</button>
+                          <button class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Útil (8)</button>
+                          <button class="action-btn"><i class="bi bi-chat-dots"></i> Respuesta</button>
                         </div>
                       </div>
 
@@ -495,7 +528,7 @@
                           <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
                         </div>
                         <div class="review-actions">
-                          <button class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Ayudados (15)</button>
+                          <button class="action-btn"><i class="bi bi-hand-thumbs-up"></i> Útil (15)</button>
                           <button class="action-btn"><i class="bi bi-chat-dots"></i> Respuesta</button>
                         </div>
                       </div>

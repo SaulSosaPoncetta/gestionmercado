@@ -6,6 +6,7 @@ use App\Models\Producto;
 use App\Models\ProductoImagen;
 use App\Models\Categoria;
 use App\Models\Ajuste;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -199,8 +200,8 @@ public function eliminaImagen($id)
     //Funcion del controlador para mostrar detalle de un producto por id en la vista detalle del producto
     public function detalle_producto($id)
     {
-        $ajuste = Ajuste::first();
-        $producto = Producto::findOrFail($id);
-        return view('web.detalle_producto', compact('ajuste','producto'));
+        $ajuste = Ajuste::first(); // Obtener el primer registro de ajustes
+        $producto = Producto::findOrFail($id); // Buscar el producto por su ID
+        return view('web.detalle_producto', compact('ajuste','producto')); // Mostrar la vista web.detalle_producto con el producto y los ajustes
     }
 }

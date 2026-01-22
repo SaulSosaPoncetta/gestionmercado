@@ -160,8 +160,9 @@
                     <span>Configuraciones</span>
                   </a>
                 </div>
+                
                 <div class="dropdown-footer">
-                  <a href="register.html" class="btn btn-primary w-100 mb-2">Ingreso</a>
+                  <a href="{{ route('web.dashboard') }}" class="btn btn-primary w-100 mb-2">Ingreso</a>
                   <a href="login.html" class="btn btn-outline-primary w-100">Registro</a>
                 </div>
               </div>

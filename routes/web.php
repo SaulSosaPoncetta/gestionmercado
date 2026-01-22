@@ -183,7 +183,7 @@ Route::get('/admin/productos/{producto}/imagenes', [App\Http\Controllers\Product
 Route::post('/admin/productos/{producto}/uploadimagen', [App\Http\Controllers\ProductoController::class, 'cargaImagen'])
     ->name('admin.productos.uploadimagen')
     ->middleware('auth');
-
+//------------------------rutas para eliminar imagen-------------------------------------
 Route::delete('/admin/productos/imagen/{imagen}/eliminaimagen', [App\Http\Controllers\ProductoController::class, 'eliminaImagen'])
     ->name('admin.productos.eliminaimagen')
     ->middleware('auth');
@@ -193,12 +193,32 @@ Route::delete('/admin/productos/imagen/{imagen}/eliminaimagen', [App\Http\Contro
 
 
 ////////////////////////////////////////////rutas para la web//////////////////////////////////////
-    
+//------------------------rutas para pagina de inicio o home-----------------------------   
 Route::get('/', [App\Http\Controllers\WebController::class,'index']) 
     ->name('web.index');
-
+//------------------------rutas para detalle producto------------------------------------
 Route::get('/producto/{id}', [App\Http\Controllers\ProductoController::class,'detalle_producto']) 
     ->name('web.detalle_producto');
+
+//------------------------rutas para login-------------------------------------------------
+Route::get('/authloginweb', [App\Http\Controllers\DashboardController::class,'loginweb']) 
+    ->name('web.authloginweb');    
+
+Route::post('/authloginweb', [App\Http\Controllers\DashboardController::class,'autenticacion']) 
+    ->name('web.autenticacion');    
+
+//------------------------rutas para dashboard----------------------------------------------
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class,'index']) 
+    ->name('web.dashboard');
+    
+//------------------------rutas para carrito-------------------------------------------------
+Route::get('/carrito', [App\Http\Controllers\DashboardController::class,'carrito']) 
+    ->name('web.carrito');
+    
+//------------------------rutas para misventas--------------------------------------------
+Route::get('/misventas', [App\Http\Controllers\DashboardController::class,'misventas']) 
+    ->name('web.misventas');
+    
 
 
 // Route::middleware('auth')->group(function () {
