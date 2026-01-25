@@ -31,6 +31,16 @@
 
 <body class="index-page">
 
+  @if($errors->any())
+      <div class="alert alert-danger">
+          <ul>
+              @foreach ($errors->all() as $error)
+                  <li>{{ $error }}</li>
+              @endforeach
+          </ul>
+      </div>
+  @endif
+
   <!---------------------------------------- Inicio de la seccion de header ------------------------------------------------------>
   <header id="header" class="header sticky-top">
     
@@ -135,7 +145,7 @@
             <!-- MANEJO DE CUENTA DE USUARIO -->
             <div class="dropdown account-dropdown">
               <button class="header-action-btn" data-bs-toggle="dropdown">
-                <i class="bi bi-person"></i>
+                <i class="bi bi-person"></i> {{Auth::user()->name ?? ''}}
               </button>
               <div class="dropdown-menu">
                 <div class="dropdown-header">
@@ -162,8 +172,16 @@
                 </div>
                 
                 <div class="dropdown-footer">
-                  <a href="{{ route('web.dashboard') }}" class="btn btn-primary w-100 mb-2">Ingreso</a>
-                  <a href="login.html" class="btn btn-outline-primary w-100">Registro</a>
+                  @if (Auth::check())
+                     <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="btn btn-primary w-100 mb-2">Cerrar Sesión</button>
+                    </form>
+                  @else
+                    <a href="{{ route('web.dashboard') }}" class="btn btn-primary w-100 mb-2">Ingreso</a>
+                    <a href="{{ route('web.authregistroweb') }}" class="btn btn-outline-primary w-100">Registro</a>
+                  @endif
+                  
                 </div>
               </div>
             </div>

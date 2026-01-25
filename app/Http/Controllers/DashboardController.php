@@ -6,6 +6,7 @@ use App\Models\Producto;
 use App\Models\ProductoImagen;
 use App\Models\Categoria;
 use App\Models\Ajuste;
+use App\Models\User;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -68,5 +69,39 @@ class DashboardController extends Controller
             return redirect('/authloginweb')->withErrors(['login_error' => 'Credenciales inválidas.']);
         }
     }
+
+     public function authregistroweb()
+     {
+        $ajuste = Ajuste::first();
+        return view('web.registroweb',compact('ajuste'));
+     }
+    
+     public function crearcuenta(Request $request)
+        {
+            //return response()->json($request->all());
+
+            // Validar los datos del formulario
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:9|confirmed',
+            ]);
+    
+            // Crear el nuevo usuario
+            $user = new User();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = bcrypt($request->input('password')); // Encriptar la contraseña
+
+            $user->save();
+
+            $user->assignRole('CLIENTE'); // Asignar rol al usuario
+                
+            // Iniciar sesión automáticamente después del registro
+            Auth::login($user);
+    
+            // Redirigir al usuario al dashboard u otra página
+            return redirect('/dashboard');
+        }
 
 }

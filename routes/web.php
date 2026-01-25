@@ -205,7 +205,16 @@ Route::get('/authloginweb', [App\Http\Controllers\DashboardController::class,'lo
     ->name('web.authloginweb');    
 
 Route::post('/authloginweb', [App\Http\Controllers\DashboardController::class,'autenticacion']) 
-    ->name('web.autenticacion');    
+    ->name('web.autenticacion');   
+
+//------------------------rutas para registro-----------------------------------------------
+  //Mostrar formulario de registro    
+Route::get('/authregistronweb', [App\Http\Controllers\DashboardController::class,'authregistroweb']) 
+    ->name('web.authregistroweb'); 
+    
+    //Guarda datos del registro
+Route::post('/authregistronweb', [App\Http\Controllers\DashboardController::class,'crearcuenta']) 
+    ->name('web.crearcuenta');
 
 //------------------------rutas para dashboard----------------------------------------------
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class,'index']) 

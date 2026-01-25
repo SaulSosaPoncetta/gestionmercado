@@ -7,8 +7,8 @@
         <h1 class="mb-2 mb-lg-0">Inicio de sesión</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.html">Inicio</a></li>
-            <li class="current">Iniciar sesión</li>
+            <li><a href="{{ url('/') }}">Inicio</a></li>
+            
           </ol>
         </nav>
       </div>
@@ -77,7 +77,7 @@
                   
                  <div class="switch-form">
                     <span>¿No tienes una cuenta?</span>
-                    <button type="button" class="switch-btn" data-target="register">Crear cuenta</button>
+                    <a href="{{ route('web.authregistroweb') }}" class="switch-btn" data-target="register">Crear cuenta</a>
                   </div>
                 </form>
               </div>

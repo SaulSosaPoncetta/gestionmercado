@@ -49,7 +49,7 @@ class UsuarioController extends Controller
         $usuario->password = bcrypt($request->password);
         $usuario->save();   
 
-        $usuario->assignRole($request->rol);
+        $usuario->assignRole($request->rol); // Asignar rol al usuario
 
         return redirect()->route('admin.usuarios.index')
             ->with('mensaje','Usuario creado exitosamente')
