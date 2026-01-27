@@ -190,19 +190,26 @@
                                     $imagen_producto = $producto->imagenes->first();
                                     $imagen = $imagen_producto->imagen ?? '';
                                 @endphp
-
+                                <!-- menu de tres opciones en card de producto -->
                                 <div class="product-badge">Ultimas Unidades</div>
                                 <img src="{{ asset('storage/' . $imagen) }}" alt="Product Image" class="img-fluid"
                                     loading="lazy">
-                                <div class="product-actions">
-                                    <button class="action-btn wishlist-btn">
-                                        <i class="bi bi-heart"></i>
-                                    </button>
+
+                                <div class="product-actions"> <!-- Agrega un producto a favoritos -->
+                                    <form action="{{ route('web.favoritos.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                                        <button type="submit" class="action-btn wishlist-btn">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    </form>
+
                                     <button class="action-btn compare-btn">
                                         <i class="bi bi-arrow-left-right"></i>
                                     </button>
-                                    <a class="action-btn quickview-btn"
-                                        href="{{ url('producto/'.$producto->id) }}">
+
+                                    <a class="action-btn quickview-btn" href="{{ url('producto/' . $producto->id) }}">
+                                        <!-- hace zoom en foto de producto -->
                                         <i class="bi bi-zoom-in"></i>
                                     </a>
                                 </div>
@@ -210,7 +217,8 @@
                             </div>
                             <div class="product-info">
                                 <div class="product-category">Nombre del Producto : <br> {{ $producto->nombre }}</div>
-                                <h4 class="product-name"><a href="{{ url('producto/'.$producto->id) }}">Descripcion corta:
+                                <h4 class="product-name"><a href="{{ url('producto/' . $producto->id) }}">Descripcion
+                                        corta:
                                         {{ $producto->descripcion_corta }}</a></h4>
                                 <div class="product-rating">
                                     <div class="stars">
@@ -222,15 +230,16 @@
                                     </div>
                                     <span class="rating-count">(24)</span>
                                 </div>
-                                <div class="product-price">Precio: {{ $ajuste->moneda . ' ' . $producto->precio_venta }}</div>
+                                <div class="product-price">Precio: {{ $ajuste->moneda . ' ' . $producto->precio_venta }}
+                                </div>
                                 <div>
                                     <span class="badge bg-danger">Stock: {{ $producto->stock }} unidades disponibles</span>
                                 </div>
                                 <!-- <div class="color-swatches">
-                      <span class="swatch active" style="background-color: #2563eb;"></span>
-                      <span class="swatch" style="background-color: #059669;"></span>
-                      <span class="swatch" style="background-color: #dc2626;"></span>
-                    </div> -->
+                              <span class="swatch active" style="background-color: #2563eb;"></span>
+                              <span class="swatch" style="background-color: #059669;"></span>
+                              <span class="swatch" style="background-color: #dc2626;"></span>
+                            </div> -->
                             </div>
                         </div>
                     </div>
@@ -256,18 +265,26 @@
                                     $imagen = $imagen_producto->imagen ?? '';
                                 @endphp
                                 <div class="product-badge sale-badge">25% Off</div>
-                                <img src="assets/img/product/product-4.webp" alt="Product Image" class="img-fluid"
+                                <img src="{{ asset('storage/' . $imagen) }}" alt="Product Image" class="img-fluid"
                                     loading="lazy">
-                                <div class="product-actions">
-                                    <button class="action-btn wishlist-btn">
-                                        <i class="bi bi-heart"></i>
-                                    </button>
+
+                                <div class="product-actions"> <!-- Agrega un producto a favoritos -->
+                                    <form action="{{ route('web.favoritos.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                                        <button type="submit" class="action-btn wishlist-btn">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    </form>
+
                                     <button class="action-btn compare-btn">
                                         <i class="bi bi-arrow-left-right"></i>
                                     </button>
-                                    <button class="action-btn quickview-btn">
+
+                                    <a class="action-btn quickview-btn" href="{{ url('producto/' . $producto->id) }}">
+                                        <!-- hace zoom en foto de producto -->
                                         <i class="bi bi-zoom-in"></i>
-                                    </button>
+                                    </a>
                                 </div>
                                 <button class="cart-btn">Agregar al carrito</button>
                             </div>
@@ -291,14 +308,23 @@
                                     <span class="current-price">$180.00</span>
                                 </div>
                                 <!-- <div class="color-swatches">
-                      <span class="swatch active" style="background-color: #1f2937;"></span>
-                      <span class="swatch" style="background-color: #f59e0b;"></span>
-                      <span class="swatch" style="background-color: #8b5cf6;"></span>
-                    </div> -->
+                              <span class="swatch active" style="background-color: #1f2937;"></span>
+                              <span class="swatch" style="background-color: #f59e0b;"></span>
+                              <span class="swatch" style="background-color: #8b5cf6;"></span>
+                            </div> -->
                             </div>
                         </div>
                     </div>
                 @endforeach
+                                @if ($productos->hasPages())
+                    <div class="d-flex justify-content-between align-items-center mt-4 px-3">
+                        <div class="text-muted">
+                            Mostrando {{ $productos->firstItem() }} a {{ $productos->lastItem() }} de
+                            {{ $productos->total() }} resultados
+                            {{ $productos->links('pagination::bootstrap-4') }}
+                        </div>
+                    </div>
+                @endif
                 <!-- Fin Producto 2 -->
 
                 <!-- Producto 3 - Productos Free Shipping -->
@@ -311,18 +337,25 @@
                                     $imagen = $imagen_producto->imagen ?? '';
                                 @endphp
                                 <div class="product-badge sale-badge">Envio Gratis</div>
-                                <img src="assets/img/product/product-7.webp" alt="Product Image" class="img-fluid"
+                                <img src="{{ asset('storage/' . $imagen) }}" alt="Product Image" class="img-fluid"
                                     loading="lazy">
-                                <div class="product-actions">
-                                    <button class="action-btn wishlist-btn">
-                                        <i class="bi bi-heart"></i>
-                                    </button>
+                                <div class="product-actions"> <!-- Agrega un producto a favoritos -->
+                                    <form action="{{ route('web.favoritos.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                                        <button type="submit" class="action-btn wishlist-btn">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    </form>
+
                                     <button class="action-btn compare-btn">
                                         <i class="bi bi-arrow-left-right"></i>
                                     </button>
-                                    <button class="action-btn quickview-btn">
+
+                                    <a class="action-btn quickview-btn" href="{{ url('producto/' . $producto->id) }}">
+                                        <!-- hace zoom en foto de producto -->
                                         <i class="bi bi-zoom-in"></i>
-                                    </button>
+                                    </a>
                                 </div>
                                 <button class="cart-btn">Agregar al carrito</button>
                             </div>
@@ -342,14 +375,23 @@
                                 <div class="product-price">$95.00
                                 </div>
                                 <!--<div class="color-swatches">
-                      <span class="swatch active" style="background-color: #ef4444;"></span>
-                      <span class="swatch" style="background-color: #06b6d4;"></span>
-                      <span class="swatch" style="background-color: #10b981;"></span>
-                    </div> -->
+                              <span class="swatch active" style="background-color: #ef4444;"></span>
+                              <span class="swatch" style="background-color: #06b6d4;"></span>
+                              <span class="swatch" style="background-color: #10b981;"></span>
+                            </div> -->
                             </div>
                         </div>
                     </div>
                 @endforeach
+                                @if ($productos->hasPages())
+                    <div class="d-flex justify-content-between align-items-center mt-4 px-3">
+                        <div class="text-muted">
+                            Mostrando {{ $productos->firstItem() }} a {{ $productos->lastItem() }} de
+                            {{ $productos->total() }} resultados
+                            {{ $productos->links('pagination::bootstrap-4') }}
+                        </div>
+                    </div>
+                @endif
                 <!-- Fin Producto 3 -->
 
                 <!-- Producto 4  - Ultima Unidad -->
@@ -362,18 +404,25 @@
                                     $imagen = $imagen_producto->imagen ?? '';
                                 @endphp
                                 <div class="product-badge trending-badge">TENDENCIA</div>
-                                <img src="assets/img/product/product-10.webp" alt="Product Image" class="img-fluid"
+                                <img src="{{ asset('storage/' . $imagen) }}" alt="Product Image" class="img-fluid"
                                     loading="lazy">
-                                <div class="product-actions">
-                                    <button class="action-btn wishlist-btn active">
-                                        <i class="bi bi-heart-fill"></i>
-                                    </button>
+                                <div class="product-actions"> <!-- Agrega un producto a favoritos -->
+                                    <form action="{{ route('web.favoritos.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                                        <button type="submit" class="action-btn wishlist-btn">
+                                            <i class="bi bi-heart"></i>
+                                        </button>
+                                    </form>
+
                                     <button class="action-btn compare-btn">
                                         <i class="bi bi-arrow-left-right"></i>
                                     </button>
-                                    <button class="action-btn quickview-btn">
+
+                                    <a class="action-btn quickview-btn" href="{{ url('producto/' . $producto->id) }}">
+                                        <!-- hace zoom en foto de producto -->
                                         <i class="bi bi-zoom-in"></i>
-                                    </button>
+                                    </a>
                                 </div>
                                 <button class="cart-btn">Agregar al carrito</button>
                             </div>
@@ -392,14 +441,23 @@
                                 </div>
                                 <div class="product-price">$165.00</div>
                                 <!-- <div class="color-swatches">
-                      <span class="swatch" style="background-color: #64748b;"></span>
-                      <span class="swatch active" style="background-color: #7c3aed;"></span>
-                      <span class="swatch" style="background-color: #f59e0b;"></span>
-                    </div> -->
+                              <span class="swatch" style="background-color: #64748b;"></span>
+                              <span class="swatch active" style="background-color: #7c3aed;"></span>
+                              <span class="swatch" style="background-color: #f59e0b;"></span>
+                            </div> -->
                             </div>
                         </div>
                     </div>
                 @endforeach
+                                @if ($productos->hasPages())
+                    <div class="d-flex justify-content-between align-items-center mt-4 px-3">
+                        <div class="text-muted">
+                            Mostrando {{ $productos->firstItem() }} a {{ $productos->lastItem() }} de
+                            {{ $productos->total() }} resultados
+                            {{ $productos->links('pagination::bootstrap-4') }}
+                        </div>
+                    </div>
+                @endif
                 <!-- Fin Producto 4 -->
 
             </div>

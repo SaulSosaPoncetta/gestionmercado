@@ -228,6 +228,41 @@ Route::get('/carrito', [App\Http\Controllers\DashboardController::class,'carrito
 Route::get('/misventas', [App\Http\Controllers\DashboardController::class,'misventas']) 
     ->name('web.misventas');
     
+//------------------------ruta para barra de busqueda-----------------------------------------
+Route::get('/buscar', [App\Http\Controllers\WebController::class,'buscar_producto']) 
+    ->name('web.buscar');
+
+
+//------------------------ rutas para FAVORITOS ------------------------------------
+//Rutas para mostrar los productos favoritos del usuario
+Route::get('/favoritos', [App\Http\Controllers\ProductoFavoritoController::class,'index_favoritos']) 
+    ->name('web.favoritos.index')
+    ->middleware('auth');
+//Rutas para guardar los productos favoritos del usuario
+Route::post('/favoritos/store', [App\Http\Controllers\ProductoFavoritoController::class,'store_favoritos']) 
+    ->name('web.favoritos.store')
+    ->middleware('auth');
+//Rutas para eliminar los productos favoritos del usuario
+Route::delete('/favoritos/{id}', [App\Http\Controllers\ProductoFavoritoController::class,'destroy_favoritos']) 
+    ->name('web.favoritos.destroy')
+    ->middleware('auth');
+
+
+
+//--------------------------------------FALLBACK--- paginas de error -------------------------------------
+Route::fallback(function () {
+    if (request()->is('admin*')) {
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+        return response()->view('404', [], 404);
+    }
+
+    return response()->view('404-admin', [], 404);
+});
+
+
+
 
 
 // Route::middleware('auth')->group(function () {

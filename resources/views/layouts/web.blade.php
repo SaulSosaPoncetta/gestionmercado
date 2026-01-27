@@ -1,3 +1,7 @@
+@php
+    $ajuste = \App\Models\Ajuste::first(); // Obtener el primer registro de la tabla ajustes
+@endphp
+
 <!DOCTYPE html>
 <html lang="es">  
 
@@ -27,10 +31,14 @@
   
   <!-- Archivo CSS Principal -->
   <link href="{{ asset('/assets/css/main.css') }}" rel="stylesheet">
+
+  <!-- Sweetalert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body class="index-page">
-
+<!-- rutina para mostrar mensajes de exito o error en las operaciones -->
   @if($errors->any())
       <div class="alert alert-danger">
           <ul>
@@ -125,9 +133,9 @@
           </a>
 
           <!-- Barra de busqueda -->
-          <form class="search-form desktop-search-form">
+          <form class="search-form desktop-search-form" method="GET" action="{{ route('web.buscar') }}">
             <div class="input-group">
-              <input type="text" class="form-control" placeholder="Buscar productos... ">
+              <input type="text" name="producto_buscado" value="{{$query ?? ''}}" class="form-control" placeholder="Buscar productos... ">
               <button class="btn" type="submit">
                 <i class="bi bi-search"></i>
               </button>
@@ -161,7 +169,7 @@
                     <i class="bi bi-bag-check me-2"></i>
                     <span>Mis Pedidos</span>
                   </a>
-                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                  <a class="dropdown-item d-flex align-items-center" href="{{route('web.favoritos.index')}}">
                     <i class="bi bi-heart me-2"></i>
                     <span>Mis Favoritos</span>
                   </a>
@@ -187,9 +195,15 @@
             </div>
 
             <!-- ACCESO LISTA DE FAVORITOS -->
-            <a href="account.html" class="header-action-btn d-none d-md-block">
+            <a href="{{route('web.favoritos.index')}}" class="header-action-btn d-none d-md-block">
               <i class="bi bi-heart"></i>
-              <span class="badge">0</span>
+              @php
+                if(Auth::check()){
+                  $cantidadFavoritos = App\Models\ProductoFavorito::where('usuario_id', Auth::id())->count();
+                }
+                   
+              @endphp
+              <span class="badge">{{$cantidadFavoritos ?? ''}}</span>
             </a>
 
             <!-- ACCESO A CARRITO -->
@@ -987,6 +1001,19 @@
 
   <!-- Main JS File -->
   <script src="{{ asset('/assets/js/main.js') }}"></script>
+
+    <!-- Verifica si existe mensaje de sesion y muestra el icono y el mensaje -->
+    @if (($mensaje = Session::get('mensaje')) && ($icono = Session::get('icono')))
+        <script>
+            Swal.fire({
+                position: "top-end",
+                icon: "{{ $icono }}",
+                title: "{{ $mensaje }}",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        </script>
+    @endif
 
 </body>
 

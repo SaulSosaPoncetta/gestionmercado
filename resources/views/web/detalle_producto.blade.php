@@ -180,12 +180,16 @@
 
 
                   <!-- Boton de añadir a la lista de favoritos -->
-                  <a href="{{ route('web.dashboard') }}" class="btn icon-action" title="Add to Wishlist">
-                    <i class="bi bi-heart"></i>
-                  </a>
+                  <form action="{{ route('web.favoritos.store') }}" method="POST">
+                         @csrf
+                         <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                         <button type="submit" class="btn icon-action" title="Add to Wishlist">
+                            <i class="bi bi-heart"></i>
+                         </button>
+                  </form>
                 </div>
               </div>
-
+            
               <!-- Benefits List -->
               <div class="benefits-list">
                 <div class="benefit-item">

@@ -147,7 +147,8 @@
     <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
 
     <script src="{{ asset('assets/js/main.js') }}"></script>
-
+    
+    <!-- Verifica si existe mensaje de sesion y muestra el icono y el mensaje -->
     @if (($mensaje = Session::get('mensaje')) && ($icono = Session::get('icono')))
         <script>
             Swal.fire({
@@ -155,7 +156,7 @@
                 icon: "{{ $icono }}",
                 title: "{{ $mensaje }}",
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2000
             });
         </script>
     @endif
