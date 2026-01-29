@@ -194,58 +194,39 @@ Route::delete('/admin/productos/imagen/{imagen}/eliminaimagen', [App\Http\Contro
 
 ////////////////////////////////////////////rutas para la web//////////////////////////////////////
 //------------------------rutas para pagina de inicio o home-----------------------------   
-Route::get('/', [App\Http\Controllers\WebController::class,'index']) 
-    ->name('web.index');
+Route::get('/', [App\Http\Controllers\WebController::class,'index'])->name('web.index');
 //------------------------rutas para detalle producto------------------------------------
-Route::get('/producto/{id}', [App\Http\Controllers\ProductoController::class,'detalle_producto']) 
-    ->name('web.detalle_producto');
+Route::get('/producto/{id}', [App\Http\Controllers\ProductoController::class,'detalle_producto'])->name('web.detalle_producto');
+//------------------------rutas para dashboard----------------------------------------------
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class,'index'])->name('web.dashboard');
+//------------------------rutas para carrito-------------------------------------------------
+Route::get('/carrito', [App\Http\Controllers\DashboardController::class,'carrito'])->name('web.carrito');
 
 //------------------------rutas para login-------------------------------------------------
-Route::get('/authloginweb', [App\Http\Controllers\DashboardController::class,'loginweb']) 
-    ->name('web.authloginweb');    
-
-Route::post('/authloginweb', [App\Http\Controllers\DashboardController::class,'autenticacion']) 
-    ->name('web.autenticacion');   
+// Muestra formulario de login
+Route::get('/authloginweb', [App\Http\Controllers\DashboardController::class,'loginweb'])->name('web.authloginwe'); 
+// Procesa el login
+Route::post('/authloginweb', [App\Http\Controllers\DashboardController::class,'autenticacion'])->name('web.autenticacio');   
 
 //------------------------rutas para registro-----------------------------------------------
-  //Mostrar formulario de registro    
-Route::get('/authregistronweb', [App\Http\Controllers\DashboardController::class,'authregistroweb']) 
-    ->name('web.authregistroweb'); 
-    
-    //Guarda datos del registro
-Route::post('/authregistronweb', [App\Http\Controllers\DashboardController::class,'crearcuenta']) 
-    ->name('web.crearcuenta');
+//Mostrar formulario de registro    
+Route::get('/authregistronweb', [App\Http\Controllers\DashboardController::class,'authregistroweb'])->name('web.authregistroweb'); 
+//Guarda datos del registro
+Route::post('/authregistronweb', [App\Http\Controllers\DashboardController::class,'crearcuenta'])->name('web.crearcuenta');
 
-//------------------------rutas para dashboard----------------------------------------------
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class,'index']) 
-    ->name('web.dashboard');
-    
-//------------------------rutas para carrito-------------------------------------------------
-Route::get('/carrito', [App\Http\Controllers\DashboardController::class,'carrito']) 
-    ->name('web.carrito');
-    
 //------------------------rutas para misventas--------------------------------------------
-Route::get('/misventas', [App\Http\Controllers\DashboardController::class,'misventas']) 
-    ->name('web.misventas');
+Route::get('/misventas', [App\Http\Controllers\DashboardController::class,'misventas'])->name('web.misventas');
     
 //------------------------ruta para barra de busqueda-----------------------------------------
-Route::get('/buscar', [App\Http\Controllers\WebController::class,'buscar_producto']) 
-    ->name('web.buscar');
-
+Route::get('/buscar', [App\Http\Controllers\WebController::class,'buscar_producto'])->name('web.buscar');
 
 //------------------------ rutas para FAVORITOS ------------------------------------
 //Rutas para mostrar los productos favoritos del usuario
-Route::get('/favoritos', [App\Http\Controllers\ProductoFavoritoController::class,'index_favoritos']) 
-    ->name('web.favoritos.index')
-    ->middleware('auth');
+Route::get('/favoritos', [App\Http\Controllers\ProductoFavoritoController::class,'index_favoritos'])->name('web.favoritos.index');
 //Rutas para guardar los productos favoritos del usuario
-Route::post('/favoritos/store', [App\Http\Controllers\ProductoFavoritoController::class,'store_favoritos']) 
-    ->name('web.favoritos.store')
-    ->middleware('auth');
+Route::post('/favoritos/store', [App\Http\Controllers\ProductoFavoritoController::class,'store_favoritos'])->name('web.favoritos.store');
 //Rutas para eliminar los productos favoritos del usuario
-Route::delete('/favoritos/{id}', [App\Http\Controllers\ProductoFavoritoController::class,'destroy_favoritos']) 
-    ->name('web.favoritos.destroy')
-    ->middleware('auth');
+Route::delete('/favoritos/{id}', [App\Http\Controllers\ProductoFavoritoController::class,'destroy_favoritos'])->name('web.favoritos.destroy');
 
 
 

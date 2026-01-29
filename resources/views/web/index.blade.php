@@ -93,7 +93,8 @@
                             <h2>Nueva Colección</h2>
                             <p>
                                 Descubre nuestras últimas novedades, diseñadas para el estilo de vida moderno. Moda
-                                elegante, cómoda y sustentable para cada ocasión.</p>
+                                elegante, cómoda y sustentable para cada ocasión.
+                            </p>
                             <a href="#" class="btn-shop">Explorar Colección <i class="bi bi-arrow-right"></i></a>
                         </div>
                     </div>
@@ -110,7 +111,7 @@
                                 </div>
                                 <div class="category-content">
                                     <h4>Indumentaria Masculina</h4>
-                                    <p>242 products</p>
+                                    <p>242 productos</p>
                                     <a href="#" class="card-link">Comprar Ahora <i class="bi bi-arrow-right"></i></a>
                                 </div>
                             </div>
@@ -164,17 +165,18 @@
             </div>
 
         </div>
-    </section>
+    </section> -->
     <!--------------------- Fin Promo Cards Section --------------------->
 
     <!--------------------- Seccion de los mas vendidos --------------------->
     <section id="best-sellers" class="best-sellers section">
 
-        <!-- Section Title -->
+        <!------------------------ Mas Buscados -------------------------------- -->
         <div class="container section-title" data-aos="fade-up">
             <h2>Los más vendidos</h2>
-            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
-        </div><!-- End Section Title -->
+            <p>Aprovecha estas re super ofertas</p>
+        </div>
+        <!-- fin Mas Buscados -->
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
@@ -316,7 +318,7 @@
                         </div>
                     </div>
                 @endforeach
-                                @if ($productos->hasPages())
+                @if ($productos->hasPages())
                     <div class="d-flex justify-content-between align-items-center mt-4 px-3">
                         <div class="text-muted">
                             Mostrando {{ $productos->firstItem() }} a {{ $productos->lastItem() }} de
@@ -383,7 +385,7 @@
                         </div>
                     </div>
                 @endforeach
-                                @if ($productos->hasPages())
+                @if ($productos->hasPages())
                     <div class="d-flex justify-content-between align-items-center mt-4 px-3">
                         <div class="text-muted">
                             Mostrando {{ $productos->firstItem() }} a {{ $productos->lastItem() }} de
@@ -449,7 +451,7 @@
                         </div>
                     </div>
                 @endforeach
-                                @if ($productos->hasPages())
+                @if ($productos->hasPages())
                     <div class="d-flex justify-content-between align-items-center mt-4 px-3">
                         <div class="text-muted">
                             Mostrando {{ $productos->firstItem() }} a {{ $productos->lastItem() }} de
@@ -467,7 +469,7 @@
     </section>
     <!--------------------- Fin Mas Buscados Seccion --------------------->
 
-    <!--------------------- Cards Section --------------------->
+    <!--------------------- Tendencia de mercado  ------------------->
     <section id="cards" class="cards section">
 
         <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -547,7 +549,7 @@
                         </div>
                     </div>
                 </div>
-
+<!-- ----------------------------- Mas Buscados ----------------------------->
                 <div class="col-lg-4 col-md-6 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="300">
                     <div class="product-category">
                         <h3 class="category-title">
@@ -625,7 +627,7 @@
                         </div>
                     </div>
                 </div>
-
+<!-- ----------------------------- Articulos Destacados ----------------------------->
                 <div class="col-lg-4 col-md-6 mb-5 mb-md-0" data-aos="fade-up" data-aos-delay="400">
                     <div class="product-category">
                         <h3 class="category-title">

@@ -49,7 +49,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function productosFavoritos()
+    public function productoFavoritos()
     {
         return $this->hasMany(ProductoFavorito::class, 'usuario_id');
     }

@@ -14,6 +14,8 @@ class ProductoFavoritoController extends Controller
      */
     public function index_favoritos()
     {
+
+
         $ajuste = Ajuste::first();
         $productoFavoritos = ProductoFavorito::where('usuario_id', Auth::user()->id)
             ->with('producto.imagenes')
@@ -40,13 +42,7 @@ class ProductoFavoritoController extends Controller
             'producto_id' => 'required|exists:productos,id',
         ]);
 
-        if ($productoFavorito = ProductoFavorito::where('usuario_id', Auth::user()->id)
-            ->where('producto_id', $request->producto_id)
-            ->first()) {
-                return redirect()->back()
-                    ->with('mensaje', 'Producto ya existente en tus favoritos')
-                    ->with('icono', 'info');
-            }   
+ 
         
         $productoFavorito = new ProductoFavorito();
         $productoFavorito->usuario_id = Auth::user()->id;
@@ -87,8 +83,19 @@ class ProductoFavoritoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProductoFavorito $productoFavorito)
+    public function destroy_favoritos($id) // el metodo destroy debe recibir el id del producto favorito
     {
-        //
+        $productoFavorito = ProductoFavorito::find($id); // recupera el producto favorito
+            if(!$productoFavorito){
+                return redirect()->back() // redirecciona al usuario a la pagina de favoritos
+                    ->with('mensaje', 'Producto no encontrado')
+                    ->with('icono', 'error'); // indica que el producto no se ha encontrado
+            }
+        
+        $productoFavorito->delete(); // elimina el producto favorito
+
+        return redirect()->back() // redirecciona al usuario a la pagina de favoritos
+            ->with('mensaje', 'Producto eliminado de favoritos') // muestra un mensaje de exito
+            ->with('icono', 'success'); // indica que el producto se ha eliminado correctamente
     }
 }

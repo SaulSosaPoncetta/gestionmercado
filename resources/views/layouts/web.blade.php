@@ -1,5 +1,5 @@
 @php
-    $ajuste = \App\Models\Ajuste::first(); // Obtener el primer registro de la tabla ajustes
+    $ajuste = \App\Models\Ajuste::first() ?? ''; // Obtener el primer registro de la tabla ajustes
 @endphp
 
 <!DOCTYPE html>
@@ -203,7 +203,7 @@
                 }
                    
               @endphp
-              <span class="badge">{{$cantidadFavoritos ?? ''}}</span>
+              <span class="badge">{{$cantidadFavoritos ?? '0'}}</span>
             </a>
 
             <!-- ACCESO A CARRITO -->
@@ -824,19 +824,7 @@
       </div>
     </div>
 
-    <!-- Mobile Search Form -->
-    <div class="collapse" id="mobileSearch">
-      <div class="container">
-        <form class="search-form">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for products">
-            <button class="btn" type="submit">
-              <i class="bi bi-search"></i>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+
 
   </header>
   <!--------------------------------------------------- Fin de la seccion de header ----------------------------------------------------------->
