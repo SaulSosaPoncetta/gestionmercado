@@ -9,13 +9,9 @@ use Illuminate\Http\Request;
 
 class ProductoFavoritoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index_favoritos()
     {
-
-
         $ajuste = Ajuste::first();
         $productoFavoritos = ProductoFavorito::where('usuario_id', Auth::user()->id)
             ->with('producto.imagenes')

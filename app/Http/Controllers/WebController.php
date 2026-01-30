@@ -2,12 +2,42 @@
 
 namespace App\Http\Controllers;
 
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Ajuste;  
 use App\Models\Producto;
 
 class WebController extends Controller
 {
+    public function loginweb()
+    {
+        return view('web.loginweb');
+    }
+
+public function autenticacion(Request $request)
+{
+    $credenciales = $request->only('email', 'password');
+
+    if (Auth::attempt($credenciales)) {
+
+        $request->session()->regenerate();
+
+        $user = Auth::user();
+
+        // 🔥 Método correcto usando Spatie
+        if ($user->hasRole('SUPER_ADMIN')) {
+            return redirect()->route('admin.index');
+        }
+
+        return redirect()->route('web.index');
+    }
+
+    return back()->withErrors([
+        'email' => 'Las credenciales no son correctas.',
+    ])->onlyInput('email');
+}
+
     public function index()
     {
         $ajuste = Ajuste::first(); // se trae a la variable los datos del primer registro de la tabla ajustes

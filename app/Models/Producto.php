@@ -36,4 +36,9 @@ class Producto extends Model
     {
         return $this->hasMany(ProductoFavorito::class, 'producto_id');
     }
+
+    public function carritos()
+    {
+        return $this->hasMany(Carrito::class, 'producto_id');
+    }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\WebController;
 
 
 
@@ -19,7 +20,7 @@ Route::get('/admin', [App\Http\Controllers\AdminController::class,'index'])
     ->name('admin')
     ->middleware('auth');
 
-//--------------------------------------AJUSTES----------------------------------------
+//-------------------------------------- RUTAS PARA AJUSTES -------------------------------------
 //Rutas para la vista de ajustes
 Route::get('/admin/ajustes', [App\Http\Controllers\AjustesController::class,'index'])
     ->name('admin.ajustes.index')
@@ -30,7 +31,7 @@ Route::post('/admin/ajustes/create', [App\Http\Controllers\AjustesController::cl
     ->middleware('auth');
 
 
-//--------------------------------------ROLES----------------------------------------
+//-------------------------------------- RUTAS PARA ROLES -------------------------------------
 // Rutas para la vista de roles
 Route::get('/admin/roles', [App\Http\Controllers\RoleController::class,'index'])
     ->name('admin.roles.index')
@@ -63,7 +64,7 @@ Route::delete('/admin/rol/{id}', [App\Http\Controllers\RoleController::class,'de
     ->middleware('auth');
 
 
-//--------------------------------------USUARIOS----------------------------------------
+//-------------------------------------- RUTAS PARA USUARIOS -------------------------------------
 
 // Rutas para la vista de USUARIOS
 Route::get('/admin/usuarios', [App\Http\Controllers\UsuarioController::class,'index'])
@@ -100,7 +101,7 @@ Route::post('/admin/usuario/{id}/restaurar', [App\Http\Controllers\UsuarioContro
     ->name('admin.usuarios.restore')
     ->middleware('auth');
 
-//--------------------------------------CATEGORIAS----------------------------------------
+//-------------------------------------- RUTAS PARA CATEGORIAS -------------------------------------
 
 // Guardar (POST SIEMPRE va a /admin/categorias)
 Route::get('/admin/categorias', [App\Http\Controllers\CategoriaController::class,'index'])
@@ -135,38 +136,31 @@ Route::post('/admin/categorias/{id}/restaurar', [App\Http\Controllers\CategoriaC
     ->name('admin.categorias.restore')
     ->middleware('auth');
 
-//--------------------------------------PRODUCTOS----------------------------------------
-
+//-------------------------------------- RUTAS PARA PRODUCTOS -------------------------------------
 // Listar productos
 Route::get('/admin/productos', [App\Http\Controllers\ProductoController::class,'index'])
     ->name('admin.productos.index')
     ->middleware('auth');
-
 // Crear producto
 Route::get('/admin/productos/create', [App\Http\Controllers\ProductoController::class,'create'])
     ->name('admin.productos.create')
     ->middleware('auth');
-
 // Guardar producto
 Route::post('/admin/productos/create', [App\Http\Controllers\ProductoController::class,'store'])
     ->name('admin.productos.store')
     ->middleware('auth');
-
 // EDITAR → SIEMPRE ANTES DE {id}
 Route::get('/admin/productos/{id}/edit', [App\Http\Controllers\ProductoController::class,'edit'])
     ->name('admin.productos.edit')
     ->middleware('auth');
-
 // MOSTRAR → SIEMPRE DESPUÉS
 Route::get('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'show'])
     ->name('admin.productos.show')
     ->middleware('auth');
-
 // Actualizar producto
 Route::put('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'update'])
     ->name('admin.productos.update')
     ->middleware('auth');
-
 // Eliminar producto
 Route::delete('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'destroy'])
     ->name('admin.productos.destroy')
@@ -174,7 +168,6 @@ Route::delete('/admin/productos/{id}', [App\Http\Controllers\ProductoController:
 
 
 //--------------------------------------IMAGENES PRODUCTOS----------------------------------------
-
 //Ruta para mostrar imagenes de un producto por id
 Route::get('/admin/productos/{producto}/imagenes', [App\Http\Controllers\ProductoController::class, 'showImagenes'])
     ->name('admin.productos.imagenes')
@@ -183,7 +176,7 @@ Route::get('/admin/productos/{producto}/imagenes', [App\Http\Controllers\Product
 Route::post('/admin/productos/{producto}/uploadimagen', [App\Http\Controllers\ProductoController::class, 'cargaImagen'])
     ->name('admin.productos.uploadimagen')
     ->middleware('auth');
-//------------------------rutas para eliminar imagen-------------------------------------
+//Ruta para eliminar imagen
 Route::delete('/admin/productos/imagen/{imagen}/eliminaimagen', [App\Http\Controllers\ProductoController::class, 'eliminaImagen'])
     ->name('admin.productos.eliminaimagen')
     ->middleware('auth');
@@ -192,35 +185,53 @@ Route::delete('/admin/productos/imagen/{imagen}/eliminaimagen', [App\Http\Contro
 
 
 
-////////////////////////////////////////////rutas para la web//////////////////////////////////////
-//------------------------rutas para pagina de inicio o home-----------------------------   
+//////////////////////////////////////////// RUTAS PARA LA WEB //////////////////////////////////
+//------------------------ RUTAS PARA PAGINA DE INICIO O HOME-----------------------------
 Route::get('/', [App\Http\Controllers\WebController::class,'index'])->name('web.index');
-//------------------------rutas para detalle producto------------------------------------
+
+//------------------------ RUTAS PARA DETALLE PRODUCTO------------------------------------
 Route::get('/producto/{id}', [App\Http\Controllers\ProductoController::class,'detalle_producto'])->name('web.detalle_producto');
-//------------------------rutas para dashboard----------------------------------------------
+
+//------------------------ RUTAS PARA DASHBOARD----------------------------------------------
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class,'index'])->name('web.dashboard');
-//------------------------rutas para carrito-------------------------------------------------
-Route::get('/carrito', [App\Http\Controllers\DashboardController::class,'carrito'])->name('web.carrito');
 
-//------------------------rutas para login-------------------------------------------------
+//------------------------ RUTAS PARA CARRITO-------------------------------------------------
+// Ruta para mostrar el carrito
+Route::get('/carrito', [App\Http\Controllers\CarritoController::class,'index_carrito'])->name('web.carrito.index');
+// Ruta para agregar un producto al carrito
+Route::post('/carrito/agregar', [App\Http\Controllers\CarritoController::class,'agregar_a_carrito'])->name('web.carrito.agregar');
+// Ruta para actualizar el cantidad de un producto en el carrito
+Route::put('/carrito/actualizar_cantidad', [App\Http\Controllers\CarritoController::class,'actualizar_cantidad'])->name('web.carrito.actualizar');
+// Ruta para eliminar un producto del carrito
+Route::delete('/carrito/{id}', [App\Http\Controllers\CarritoController::class,'eliminar_del_carrito'])->name('web.carrito.eliminar');
+// Ruta para vaciar todos los productos del carrito
+Route::post('/carrito/vaciar', [App\Http\Controllers\CarritoController::class,'vaciar_carrito'])->name('web.carrito.vaciar');
+
+
+
+
+
+//------------------------ RUTAS PARA LOGIN-------------------------------------------------
 // Muestra formulario de login
-Route::get('/authloginweb', [App\Http\Controllers\DashboardController::class,'loginweb'])->name('web.authloginwe'); 
+Route::get('/authloginweb', [App\Http\Controllers\WebController::class,'loginweb'])->name('web.authloginweb'); 
 // Procesa el login
-Route::post('/authloginweb', [App\Http\Controllers\DashboardController::class,'autenticacion'])->name('web.autenticacio');   
+Route::post('/authloginweb', [App\Http\Controllers\WebController::class,'autenticacion'])->name('web.autenticacion');   
 
-//------------------------rutas para registro-----------------------------------------------
+//------------------------ RUTAS PARA REGISTRO-----------------------------------------------
 //Mostrar formulario de registro    
 Route::get('/authregistronweb', [App\Http\Controllers\DashboardController::class,'authregistroweb'])->name('web.authregistroweb'); 
 //Guarda datos del registro
 Route::post('/authregistronweb', [App\Http\Controllers\DashboardController::class,'crearcuenta'])->name('web.crearcuenta');
 
-//------------------------rutas para misventas--------------------------------------------
+//------------------------ RUTAS PARA MISVENTAS--------------------------------------------
 Route::get('/misventas', [App\Http\Controllers\DashboardController::class,'misventas'])->name('web.misventas');
     
-//------------------------ruta para barra de busqueda-----------------------------------------
+
+
+//------------------------ RUTA PARA BARRA DE BUSQUEDA-----------------------------------------
 Route::get('/buscar', [App\Http\Controllers\WebController::class,'buscar_producto'])->name('web.buscar');
 
-//------------------------ rutas para FAVORITOS ------------------------------------
+//------------------------ RUTAS PARA FAVORITOS ------------------------------------
 //Rutas para mostrar los productos favoritos del usuario
 Route::get('/favoritos', [App\Http\Controllers\ProductoFavoritoController::class,'index_favoritos'])->name('web.favoritos.index');
 //Rutas para guardar los productos favoritos del usuario
@@ -230,7 +241,7 @@ Route::delete('/favoritos/{id}', [App\Http\Controllers\ProductoFavoritoControlle
 
 
 
-//--------------------------------------FALLBACK--- paginas de error -------------------------------------
+//--------------------------------------FALLBACK --- RUTAS PARA PAGINAS DE ERROR -------------------------------------
 Route::fallback(function () {
     if (request()->is('admin*')) {
         if (!auth()->check()) {
@@ -241,9 +252,6 @@ Route::fallback(function () {
 
     return response()->view('404-admin', [], 404);
 });
-
-
-
 
 
 // Route::middleware('auth')->group(function () {
