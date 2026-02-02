@@ -1,7 +1,7 @@
 @extends('layouts.web')
 
 @section('contenido')
-    <!--  INICIO ---------------------------------Hero Section -------------------------------------------------------- -->
+    <!--  INICIO ---------------------------------Hero Section -------------------- -->
     <section id="hero" class="hero section">
 
         <div class="hero-container">
@@ -58,17 +58,18 @@
                     </div>
                 </div>
 
-                <div class="floating-elements"> <!-- Acceso al carrito flotante-->
+                <div class="floating-elements"> 
+                    <!-- Acceso al carrito flotante-->
                     <div class="floating-icon cart" data-aos="fade-up" data-aos-delay="600">
                         <i class="bi bi-cart3"></i>
                         <span class="notification-dot">3</span>
                     </div>
+                    <!-- Acceso a favoritos flotante-->
                     <div class="floating-icon wishlist" data-aos="fade-up" data-aos-delay="700">
-                        <!-- Acceso a favoritos flotante-->
                         <i class="bi bi-heart"></i>
                     </div>
+                    <!-- Acceso a lupa flotante-->
                     <div class="floating-icon search" data-aos="fade-up" data-aos-delay="800">
-                        <!-- Acceso a lupa flotante-->
                         <i class="bi bi-search"></i>
                     </div>
                 </div>
@@ -76,7 +77,7 @@
         </div>
 
     </section>
-    <!-- ---------------------------------------------/ Fin Hero Section ----------------- -->
+    <!-- ---------------------------------------- Fin Hero Section ----------------- -->
 
     <!--------------------- Promo Cards Section --------------------->
     <section id="promo-cards" class="promo-cards section">
@@ -170,14 +171,13 @@
 
     <!--------------------- Seccion de los mas vendidos --------------------->
     <section id="best-sellers" class="best-sellers section">
-
-        <!------------------------ Mas Buscados -------------------------------- -->
-        <div class="container section-title" data-aos="fade-up">
+      <div class="container section-title" data-aos="fade-up">
             <h2>Los más vendidos</h2>
             <p>Aprovecha estas re super ofertas</p>
         </div>
-        <!-- fin Mas Buscados -->
+    <!--------------------- fin Mas Buscados ------------------ -->
 
+    <!--------------------- OFERTAS DE PRODUCTOS --------------------->
         <div class="container" data-aos="fade-up" data-aos-delay="100">
 
             <div class="row g-5">

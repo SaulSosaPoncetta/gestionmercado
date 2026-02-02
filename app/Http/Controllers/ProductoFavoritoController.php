@@ -1,84 +1,78 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers; // namespace de la clase
 
-use Illuminate\Support\Facades\Auth;
-use App\Models\Ajuste;
-use App\Models\ProductoFavorito;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth; // fachada para el Auth
+use App\Models\Ajuste; // modelo de ajustes
+use App\Models\ProductoFavorito; // modelo de producto favorito
+use Illuminate\Http\Request; // clase para el request
 
-class ProductoFavoritoController extends Controller
+class ProductoFavoritoController extends Controller // clase para el controlador
 {
 
-    public function index_favoritos()
+    public function index_favoritos() // el metodo index debe recibir el id del producto favorito
     {
-        $ajuste = Ajuste::first();
-        $productoFavoritos = ProductoFavorito::where('usuario_id', Auth::user()->id)
-            ->with('producto.imagenes')
-            ->get();
+        if(Auth::guest()){ // si el usuario no esta logeado
+            return redirect()->route('web.authloginweb') // redirecciona al login
+            ->with('mensaje', 'Debes estar logeado para acceder afavoritos') // muestra un mensaje de error
+            ->with('icono', 'warning'); // indica que el usuario no esta logeado
+        }
+        $ajuste = Ajuste::first(); // recupera el primer registro de la tabla ajustes
+        $productoFavoritos = ProductoFavorito::where('usuario_id', Auth::user()->id) // recupera todos los productos favoritos del usuario
+            ->with('producto.imagenes') // recupera las imagenes del producto
+            ->get(); // devuelve el producto favorito
             
-            return view('web.favoritos', compact('productoFavoritos','ajuste'));
+            return view('web.favoritos', compact('productoFavoritos','ajuste')); // muestra la vista de favoritos
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function create() // el metodo create debe recibir el id del producto favorito
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store_favoritos(Request $request)
+
+    public function store_favoritos(Request $request) // el metodo store debe recibir el id del producto favorito
     {
         //return response()->json($request->all());
-        $request->validate([
-            'producto_id' => 'required|exists:productos,id',
+        $request->validate([ // valida que el producto existe 
+            'producto_id' => 'required|exists:productos,id', 
         ]);
 
- 
+        if($productoFavorito = ProductoFavorito::where('usuario_id', Auth::user()->id)
+            ->where('producto_id', $request->producto_id)->first()){
+                return redirect()->back() // redirecciona al usuario a la pagina de favoritos
+                    ->with('mensaje', 'Producto ya esta en tusfavoritos') // muestra un mensaje de error
+                    ->with('icono', 'warning'); // indica que el producto ya esta en favoritos
+        }
         
-        $productoFavorito = new ProductoFavorito();
-        $productoFavorito->usuario_id = Auth::user()->id;
-        $productoFavorito->producto_id = $request->producto_id;
+        $productoFavorito = new ProductoFavorito(); // crea un producto favorito
+        $productoFavorito->usuario_id = Auth::user()->id; // asigna el usuario al producto favorito
+        $productoFavorito->producto_id = $request->producto_id; // asigna el producto al producto favorito
         
-        $productoFavorito->save();
+        $productoFavorito->save(); // guarda el producto favorito
 
-        return redirect()->back()
-            ->with('mensaje', 'Producto agregado a favoritos')
-            ->with('icono', 'success');
+        return redirect()->back() // redirecciona al usuario a la pagina de favoritos
+            ->with('mensaje', 'Producto agregado a favoritos') // muestra un mensaje de exito
+            ->with('icono', 'success'); // indica que el producto se ha agregado correctamente
 
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(ProductoFavorito $productoFavorito)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(ProductoFavorito $productoFavorito)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, ProductoFavorito $productoFavorito)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy_favoritos($id) // el metodo destroy debe recibir el id del producto favorito
     {
         $productoFavorito = ProductoFavorito::find($id); // recupera el producto favorito

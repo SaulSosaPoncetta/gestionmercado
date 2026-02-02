@@ -238,8 +238,8 @@
             
             
 
-            <!-- Desplegable --
-            <li class="dropdown"><a href="#"><span>Desplegable</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <!-- Desplegable -->
+            <!-- <li class="dropdown"><a href="#"><span>Desplegable</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
               <ul>
                 <li><a href="#">Dropdown 1</a></li>
                 <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -258,11 +258,11 @@
             </li>
             -->
 
-            <!-- Megamenu Con Galeria 
-            <li class="products-megamenu-1"><a href="#"><span>Megamenu Con Galeria </span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <!-- Megamenu Con Galeria -->
+            <!-- <li class="products-megamenu-1"><a href="#"><span>Megamenu Con Galeria </span> <i class="bi bi-chevron-down toggle-dropdown"></i></a> -->
 
-              <!-- Megamenu Con Galeria Mobile View 
-              <ul class="mobile-megamenu">
+            <!-- Megamenu Con Galeria Mobile View -->
+            <!-- <ul class="mobile-megamenu">
 
                 <li><a href="#">Featured Products</a></li>
                 <li><a href="#">New Arrivals</a></li>
