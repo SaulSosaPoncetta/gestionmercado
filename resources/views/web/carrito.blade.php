@@ -59,9 +59,36 @@
                                                 <h6 class="product-title">{{ $carrito->producto->nombre }}</h6>
                                                 <span class="badge bg-danger">{{ $carrito->producto->stock}} unidades disponibles</span>
                                                 <br>
-                                                <button class="remove-item" type="button">
-                                                    <i class="bi bi-trash"></i> Quitar del carrito
-                                                </button>
+                                                <form action="{{ route('web.carrito.eliminar', $carrito->id) }}" method="POST" 
+                                                    id="miFormulario{{ $carrito->id }}" class="d-inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-outline-danger btn-sm" type="button"
+                                                        onclick="preguntar{{ $carrito->id }}(event)">
+                                                        <i class="bi bi-trash"></i> Quitar del carrito
+                                                    </button>
+                                                    
+                                                </form>
+                                                <script>
+                                                    function preguntar{{ $carrito->id }}(event) {
+                                                        event.preventDefault();
+
+                                                        Swal.fire({
+                                                            title: '¿Desea eliminar este articulo del carrito?',
+                                                            icon: 'question',
+                                                            showCancelButton: true,
+                                                            confirmButtonText: 'Eliminar',
+                                                            cancelButtonColor: '#a5161d',
+                                                            denyButtonColor: '#270a0a',
+                                                            denyButtonText: 'Cancelar',
+                                                        }).then((result) => {
+                                                            if (result.isConfirmed) {
+                                                                document.getElementById('miFormulario{{ $carrito->id }}').submit();
+                                                            }
+                                                        });
+                                                    }
+                                                </script>
+
                                             </div>
                                         </div>
                                     </div>
@@ -72,16 +99,21 @@
                                     </div>
 
                                     <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                                        <div class="quantity-selector">
-                                            <button class="quantity-btn decrease">
+                                        <form action="{{route('web.carrito.actualizar')}}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="carrito_id" value="{{$carrito->id}}">
+                                            <div class="quantity-selector">
+                                            <button type="submit" class="quantity-btn decrease">
                                                 <i class="bi bi-dash"></i>
                                             </button>
                                             <input type="number" class="quantity-input" value="{{$carrito->cantidad}}" min="1"
-                                                max="{{$carrito->producto->stock}}">
-                                            <button class="quantity-btn increase">
+                                                max="{{$carrito->producto->stock}}" name="cantidad">
+                                            <button type="submit" class="quantity-btn increase">
                                                 <i class="bi bi-plus"></i>
                                             </button>
                                         </div>
+                                        </form>
                                     </div>
                                     <div class="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                                         <div class="item-total">
@@ -106,20 +138,28 @@
                             <div class="row">
                                 <div class="col-lg-6 mb-3 mb-lg-0">
                                     <div class="coupon-form">
+                                        <!--
                                         <div class="input-group">
                                             <input type="text" class="form-control" placeholder="Coupon code">
                                             <button class="btn btn-outline-accent" type="button">Aplicar cupon de
                                                 descuento</button>
                                         </div>
+                                        -->
                                     </div>
                                 </div>
                                 <div class="col-lg-6 text-md-end">
+                                    <!--
                                     <button class="btn btn-outline-heading me-2">
                                         <i class="bi bi-arrow-clockwise"></i> Actualizar Carrito
                                     </button>
-                                    <button class="btn btn-outline-remove">
-                                        <i class="bi bi-trash"></i> Vaciar Carrito
-                                    </button>
+                                    -->
+                                    <form action="{{route('web.carrito.vaciar')}}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('POST')
+                                        <button type="submit" class="btn btn-outline-remove">
+                                            <i class="bi bi-trash"></i> Vaciar Carrito
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

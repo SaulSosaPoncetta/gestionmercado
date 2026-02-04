@@ -60,18 +60,42 @@ class CarritoController extends Controller
     
     public function actualizar_cantidad(Request $request)
     {
-        //
+        //return response()->json($request->all());
+        $request->validate([ // valida los datos del request
+            'carrito_id' => 'required|exists:carritos,id', // valida que el carrito existe
+            'cantidad' => 'required|integer|min:1', // valida que la cantidad sea mayor o igual a 1
+        ]);
+
+        $carrito = Carrito::findOrFail($request->carrito_id); // busca el carrito en el id
+        $carrito->cantidad = $request->cantidad; // actualiza la cantidad del carrito
+
+        $carrito->save(); // guarda el carrito actualizado
+
+        return redirect()->route('web.carrito.index') // redirecciona al carrito
+            ->with('mensaje', 'Cantidad actualizada exitosamente') // mensaje de exito
+            ->with('icono', 'success'); // icono de exito
+
     }
 
     
-    public function eliminar_del_carrito(Carrito $carrito)
+    public function eliminar_del_carrito($id)
     {
-        //
+        $carrito = Carrito::find($id); // busca el carrito en el id
+        $carrito->delete(); // elimina el carrito
+        return redirect()->route('web.carrito.index') // redirecciona al carrito
+            ->with('mensaje', 'Producto eliminado del carrito exitosamente') // mensaje de exito
+            ->with('icono', 'success'); // icono de exito
     }
 
     
     public function vaciar_carrito(Carrito $carrito)
     {
-        //
+        //echo "limpiando carrito";
+
+        Carrito::where('usuario_id', Auth::user()->id)->delete(); // elimina todos los carritos del usuario
+
+        return redirect()->route('web.carrito.index') // redirecciona al carrito
+            ->with('mensaje', 'Carrito vaciado exitosamente') // mensaje de exito
+            ->with('icono', 'success'); // icono de exito
     }
 }

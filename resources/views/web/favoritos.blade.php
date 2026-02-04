@@ -7,9 +7,9 @@
             <h1 class="mb-2 mb-lg-0">Mis Favoritos: {{ $productoFavoritos->count() }} </h1>
             <nav class="breadcrumbs">
                 <!--<ol>
-                        <li><a href="index.html">Inicio</a></li>
-                        <li class="current">Account</li>>
-                    </ol> -->
+                            <li><a href="index.html">Inicio</a></li>
+                            <li class="current">Account</li>>
+                        </ol> -->
             </nav>
         </div>
     </div>
@@ -39,16 +39,16 @@
 
                         <!-- Menu de navegacion -->
                         <!--  <nav class="menu-nav">
-                                <ul class="nav flex-column" role="tablist">
+                                    <ul class="nav flex-column" role="tablist">
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#wishlist">
-                                            <i class="bi bi-heart"></i>
-                                            <span>Total de favoritos <span class="badge"></span></span>
-                                            
-                                        </a>
-                                </ul>
-                            </nav> -->
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" href="#wishlist">
+                                                <i class="bi bi-heart"></i>
+                                                <span>Total de favoritos <span class="badge"></span></span>
+                                                
+                                            </a>
+                                    </ul>
+                                </nav> -->
                         <!-- Fin Menu de navegacion -->
                     </div>
                 </div>
@@ -63,20 +63,24 @@
                                     <h2>Productos:</h2>
                                 </div>
                                 <div class="wishlist-grid">
-                                    @foreach ($productoFavoritos as $favorito) <!-- LOOP DE REGISTROS PARAMOSTRAR EN LA VISTA // FAVORITOS-->
+                                    @foreach ($productoFavoritos as $favorito)
+                                        <!-- LOOP DE REGISTROS PARAMOSTRAR EN LA VISTA // FAVORITOS-->
                                         <div class="wishlist-card" data-aos="fade-up" data-aos-delay="100">
                                             <div class="wishlist-image">
                                                 @php
                                                     $imagen_producto = $favorito->producto->imagenes->first();
                                                     $imagen = $imagen_producto->imagen ?? '';
                                                 @endphp
-                                                <img src="{{ asset('storage/' . $imagen) }}" alt="Product Image" loading="lazy">
+                                                <img src="{{ asset('storage/' . $imagen) }}" alt="Product Image"
+                                                    loading="lazy">
                                                 <!-- MODAL PARA PREGUNTAR POR ELIMINACION DE REGISTRO // FAVORITOS-->
                                                 <form action="{{ route('web.favoritos.destroy', $favorito->id) }}"
                                                     method="POST" id="miFormulario{{ $favorito->id }}" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button class="btn-remove" type="submit" aria-label="Remove from wishlist" onclick="preguntar{{ $favorito->id }}(event)">
+                                                    <button class="btn-remove" type="submit"
+                                                        aria-label="Remove from wishlist"
+                                                        onclick="preguntar{{ $favorito->id }}(event)">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
                                                 </form>
@@ -103,7 +107,9 @@
                                                 <div class="sale-badge">{{ $favorito->producto->stock }} disponibles</div>
                                             </div>
                                             <div class="wishlist-content">
-                                                <a href="{{route('web.detalle_producto', $favorito->producto->id)}}"><h4>{{ $favorito->producto->nombre }}</h4></a>
+                                                <a href="{{ route('web.detalle_producto', $favorito->producto->id) }}">
+                                                    <h4>{{ $favorito->producto->nombre }}</h4>
+                                                </a>
                                                 <div class="product-meta">
                                                     <div class="rating">
                                                         <i class="bi bi-star-fill"></i>
@@ -119,7 +125,13 @@
                                                         <!-- <span class="original">$99.99</span> -->
                                                     </div>
                                                 </div>
-                                                <button type="button" class="btn-add-cart"> Añadir al Carrito</button>
+                                                <form action="{{ route('web.carrito.agregar') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="producto_id" value="{{ $favorito->producto->id }}">
+                                                    <input type="hidden" name="cantidad" value="1">
+                                                    <button class="btn-add-cart">Agregar al carrito</button>
+                                                </form>
+                                                
                                             </div>
                                         </div>
                                     @endforeach
@@ -134,5 +146,5 @@
                 </div>
             </div>
 
-    </section> 
+    </section>
 @endsection

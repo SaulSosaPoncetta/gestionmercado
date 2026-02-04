@@ -196,6 +196,7 @@ Route::get('/producto/{id}', [App\Http\Controllers\ProductoController::class,'de
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class,'index'])->name('web.dashboard');
 
 //------------------------ RUTAS PARA CARRITO-------------------------------------------------
+// Route::metodo('direccion de la ruta', [controlador::class,'nombre de la funcion en controller'])->name('nombre de la ruta con la que se la llama');
 // Ruta para mostrar el carrito
 Route::get('/carrito', [App\Http\Controllers\CarritoController::class,'index_carrito'])->name('web.carrito.index');
 // Ruta para agregar un producto al carrito
