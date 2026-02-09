@@ -240,6 +240,30 @@ Route::post('/favoritos/store', [App\Http\Controllers\ProductoFavoritoController
 //Rutas para eliminar los productos favoritos del usuario
 Route::delete('/favoritos/{id}', [App\Http\Controllers\ProductoFavoritoController::class,'destroy_favoritos'])->name('web.favoritos.destroy');
 
+//-------------------------RUTAS PARA PASARELAS DE PAGOS--------------------------------
+//-------------------------         PAYPAL          ------------------------------------
+// realiza el pago con paypal
+Route::post('/paypal/pago', [App\Http\Controllers\PayPalController::class,'pago'])->name('web.paypal.paypalpago');
+// procesa el pago con paypal
+Route::get('/paypal/gracias', [App\Http\Controllers\PayPalController::class,'gracias'])->name('web.paypal.paypalgracias');
+// completa y guarda la orden en la base de datos
+Route::get('/paypal/orden_completada/{id}', [App\Http\Controllers\PayPalController::class,'orden_completada'])->name('web.paypal.ordencompletada');
+// cancela el pago con paypal
+Route::get('/paypal/cancelar', [App\Http\Controllers\PayPalController::class,'cancelar_pago'])->name('web.paypal.paypalcancelar_pago');
+
+
+//-------------------------         MERCADOPAGO          ------------------------------------
+
+
+
+
+
+//-------------------------         CUENTADNI          ------------------------------------
+
+
+
+
+
 
 
 //--------------------------------------FALLBACK --- RUTAS PARA PAGINAS DE ERROR -------------------------------------

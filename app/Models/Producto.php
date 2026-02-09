@@ -42,4 +42,9 @@ class Producto extends Model // modelo de producto
     {
         return $this->hasMany(Carrito::class, 'producto_id'); //un producto puede tener muchos carritos
     }
+
+    public function detallesOrden()
+    {
+        return $this->hasMany(DetalleOrden::class, 'producto_id'); //un producto puede tener muchas ordenes
+    }
 }
