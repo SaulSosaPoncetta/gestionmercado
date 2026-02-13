@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\OrdenController;
 use App\Http\Controllers\WebController;
 
 
@@ -181,7 +182,13 @@ Route::delete('/admin/productos/imagen/{imagen}/eliminaimagen', [App\Http\Contro
     ->name('admin.productos.eliminaimagen')
     ->middleware('auth');
 
-
+//-------------------------------------- RUTAS PARA PEDIDOS/ORDENES -------------------------------------
+// Rutas para la vista de pedidos
+Route::get('/admin/pedidos', [App\Http\Controllers\OrdenController::class,'ordenes_index'])->name('admin.pedidos.index')->middleware('auth');
+// Rutas para crear un nuevo pedido
+Route::get('/admin/pedidos/{id}', [App\Http\Controllers\OrdenController::class,'ordenes_create_envio'])->name('admin.pedidos.create_envio')->middleware('auth');
+// Rutas para guardar los datos del pedido
+Route::post('/admin/pedidos/{id}', [App\Http\Controllers\OrdenController::class,'store'])->name('admin.pedidos.store')->middleware('auth');
 
 
 

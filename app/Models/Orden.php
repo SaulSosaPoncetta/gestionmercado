@@ -16,6 +16,7 @@ class Orden extends Model // Clase que hereda de la clase Model
         'estado_orden',
         'transaccion_id',
         'direccion_envio',
+        'nota',
     ];
 
     public function usuario() // Método que devuelve el usuario asociado a la orden
