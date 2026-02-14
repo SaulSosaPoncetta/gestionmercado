@@ -7,6 +7,8 @@ use App\Models\ProductoImagen;
 use App\Models\Categoria;
 use App\Models\Ajuste;
 use App\Models\User;
+use App\Models\Orden;
+use App\Models\ProductoFavorito;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -16,7 +18,14 @@ class DashboardController extends Controller
     public function index()
     {
         if(Auth::check()){
-            return view('web.dashboard');
+            $ajuste = Ajuste::first();
+            
+            $pedidos = Orden::with('usuario', 'detalles')->where('usuario_id', Auth::user()->id)->get();   
+
+            $total_pedidos = Orden::where('usuario_id', Auth::user()->id)->count();
+            $total_favoritos = ProductoFavorito::where('usuario_id', Auth::user()->id)->count();
+
+            return view('web.dashboard', compact('ajuste', 'total_pedidos', 'total_favoritos', 'pedidos' ));
         }
         else{
             return redirect('/authloginweb');

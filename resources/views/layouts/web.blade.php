@@ -161,14 +161,14 @@
                   <p class="mb-0">Accede a tu cuenta &amp; maneja tus compras</p>
                 </div>
                 <div class="dropdown-body">
-                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                  <a class="dropdown-item d-flex align-items-center" href="{{route('web.dashboard')}}">
                     <i class="bi bi-person-circle me-2"></i>
-                    <span>Mi Perfil</span>
+                    <span>Mi Cuenta</span>
                   </a>
-                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                  <!-- <a class="dropdown-item d-flex align-items-center" href="{{--route('web.pedidos.index')--}}">
                     <i class="bi bi-bag-check me-2"></i>
                     <span>Mis Pedidos</span>
-                  </a>
+                  </a> -->
                   <a class="dropdown-item d-flex align-items-center" href="{{route('web.favoritos.index')}}">
                     <i class="bi bi-heart me-2"></i>
                     <span>Mis Favoritos</span>

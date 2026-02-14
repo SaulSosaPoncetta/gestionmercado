@@ -22,16 +22,19 @@
                         <li class="breadcrumb-item active" aria-current="page">
                             {{ Auth::user()->roles->pluck('name')->implode(', ') }}</li>
                         <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-danger" style="margin-left: 20px">
-                            Cerrar sesión
-                        </button>
+                            @csrf
+                            <button type="submit" class="btn btn-danger" style="margin-left: 20px">
+                                Cerrar sesión
+                            </button>
                         </form>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
+    <br>
+    <!-- Cards de estadisticas generales -->
+    <h2>General</h2>
     <div class="row">
         <div class="col-md-3">
             <div class="card">
@@ -104,4 +107,87 @@
             </div>
         </div>
     </div>
+    <!-- Cards de estadisticas de pedidos -->
+    <h2>Pedidos: {{ $total_pedidos }} pedidos</h2>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body px-3 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="{{ route('admin.pedidos.index') }}">
+                                <div class="stats-icon purple mb-2">
+                                    <i class=""><i class="bi bi-basket3-fill"></i></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h6 class="text-muted font-semibold">Pedidos Nuevos / Sin Procesar</h6>
+                        <h6 class="font-extrabold mb-0">{{ $total_pedidos_nuevos }} pedidos</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body px-3 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="{{ route('admin.pedidos.index') }}">
+                                <div class="stats-icon purple mb-2">
+                                    <i class=""><i class="bi bi-basket3-fill"></i></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h6 class="text-muted font-semibold">Pedidos Procesados</h6>
+                        <h6 class="font-extrabold mb-0">{{ $total_pedidos_procesados }} pedidos</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body px-3 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="{{ route('admin.pedidos.index') }}">
+                                <div class="stats-icon purple mb-2">
+                                    <i class=""><i class="bi bi-basket3-fill"></i></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h6 class="text-muted font-semibold">Pedidos Enviados</h6>
+                        <h6 class="font-extrabold mb-0">{{ $total_pedidos_enviados }} pedidos</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body px-3 py-4-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <a href="{{ route('admin.pedidos.index') }}">
+                                <div class="stats-icon purple mb-2">
+                                    <i class=""><i class="bi bi-basket3-fill"></i></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h6 class="text-muted font-semibold">Pedidos Entregados</h6>
+                        <h6 class="font-extrabold mb-0">{{ $total_pedidos_entregados }} pedidos</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 @endsection
