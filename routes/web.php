@@ -202,6 +202,15 @@ Route::get('/producto/{id}', [App\Http\Controllers\ProductoController::class,'de
 //------------------------ RUTAS PARA DASHBOARD----------------------------------------------
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class,'index'])->name('web.dashboard');
 
+//------------------------ RUTAS PARA MIS ajustes--------------------------------------------
+// Ruta que trae mis ajustes del usuario logueado
+Route::get('/ajustes', [App\Http\Controllers\DashboardController::class,'ajustes'])->name('web.ajustes');
+// Ruta que actualiza la informacion personal del usuario logueado
+Route::put('/ajustes/informacion_personal', [App\Http\Controllers\DashboardController::class,'informacion_personal'])->name('web.ajustes.informacion_personal');
+// Ruta que actualiza la contraseña del usuario logueado
+Route::put('/ajustes/actualizar_password', [App\Http\Controllers\DashboardController::class,'actualizar_password'])->name('web.ajustes.actualizar_password');
+
+
 //------------------------ RUTAS PARA CARRITO-------------------------------------------------
 // Route::metodo('direccion de la ruta', [controlador::class,'nombre de la funcion en controller'])->name('nombre de la ruta con la que se la llama');
 // Ruta para mostrar el carrito

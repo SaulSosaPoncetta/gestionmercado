@@ -19,7 +19,6 @@ class CarritoController extends Controller
             ->with('icono', 'warning'); // icono de error
         }
 
-
         $ajuste = Ajuste::first(); // obtiene el ajuste del usuario
         $carritos = Carrito::where('usuario_id', Auth::user()->id) // obtiene los carritos del usuario
             ->with('producto.imagenes') // con los productos de los carritos
@@ -31,7 +30,12 @@ class CarritoController extends Controller
     // agrega un producto al carrito
     public function agregar_a_carrito(Request $request) 
     {
-       //return response()->json($request->all());
+        if(Auth::guest()){ // si el usuario no esta logeado
+            return redirect()->route('web.authloginweb') // redirecciona al login
+            ->with('mensaje', 'Debes estar logeado para acceder al carrito') // mensaje de error
+            ->with('icono', 'warning'); // icono de error
+        }
+        //return response()->json($request->all());
         $request->validate([ // valida los datos del request
             'producto_id' => 'required|exists:productos,id', // valida que el producto existe
             'cantidad' => 'required|integer|min:1', // valida que la cantidad sea mayor o igual a 1

@@ -165,15 +165,15 @@
                     <i class="bi bi-person-circle me-2"></i>
                     <span>Mi Cuenta</span>
                   </a>
-                  <!-- <a class="dropdown-item d-flex align-items-center" href="{{--route('web.pedidos.index')--}}">
+                  <a class="dropdown-item d-flex align-items-center" href="{{route('web.dashboard')}}">
                     <i class="bi bi-bag-check me-2"></i>
                     <span>Mis Pedidos</span>
-                  </a> -->
+                  </a>
                   <a class="dropdown-item d-flex align-items-center" href="{{route('web.favoritos.index')}}">
                     <i class="bi bi-heart me-2"></i>
                     <span>Mis Favoritos</span>
                   </a>
-                  <a class="dropdown-item d-flex align-items-center" href="account.html">
+                  <a class="dropdown-item d-flex align-items-center" href="{{route('web.ajustes')}}">
                     <i class="bi bi-gear me-2"></i>
                     <span>Configuraciones</span>
                   </a>
