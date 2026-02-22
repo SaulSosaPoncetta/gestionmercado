@@ -17,131 +17,131 @@ Route::get('/', function () {
 //Rutas para la vista de home
 Route::get('/home', [App\Http\Controllers\AdminController::class,'index'])
        ->name('home')
-       ->middleware('auth');
+       ->middleware('auth', 'can:Ver dashboard de admin');
 //Rutas para la vista de home admin
 Route::get('/admin', [App\Http\Controllers\AdminController::class,'index'])
     ->name('admin')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Ver dashboard de admin');
 
 //-------------------------------------- RUTAS PARA AJUSTES -------------------------------------
 //Rutas para la vista de ajustes
 Route::get('/admin/ajustes', [App\Http\Controllers\AjustesController::class,'index'])
     ->name('admin.ajustes.index')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Ver ajustes del sistema');
 //Rutas para guardar los datos de la vista de ajustes
 Route::post('/admin/ajustes/create', [App\Http\Controllers\AjustesController::class,'store'])
     ->name('admin.ajustes.store')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Actualizar ajustes del sistema');
 
 
 //-------------------------------------- RUTAS PARA ROLES -------------------------------------
 // Rutas para la vista de roles
 Route::get('/admin/roles', [App\Http\Controllers\RoleController::class,'index'])
     ->name('admin.roles.index')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Ver listado de roles');
 
 // Mostrar formulario
 Route::get('/admin/roles/create', [App\Http\Controllers\RoleController::class,'create'])
     ->name('admin.roles.create')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Crear roles');
 
 // Guardar (POST SIEMPRE va a /admin/roles)
 Route::post('/admin/roles', [App\Http\Controllers\RoleController::class,'store'])
     ->name('admin.roles.store')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Guardar roles');
 
 Route::get('/admin/rol/{id}', [App\Http\Controllers\RoleController::class,'show'])
     ->name('admin.roles.show')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Ver rol');
 
 Route::get('/admin/rol/{id}/edit', [App\Http\Controllers\RoleController::class,'edit'])
     ->name('admin.roles.edit')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Editar roles');
 
 Route::put('/admin/rol/{id}', [App\Http\Controllers\RoleController::class,'update'])
     ->name('admin.roles.update')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Actualizar roles');
 
 Route::delete('/admin/rol/{id}', [App\Http\Controllers\RoleController::class,'destroy'])
     ->name('admin.roles.destroy')
-    ->middleware('auth');
-    
+    ->middleware('auth', 'can:Eliminar roles');
+
 //-------------------------------- RUTAS PARA PERMISOS -------------------------------------
 //Rutas para la vista de permisos
 Route::get('/admin/rol/{id}/permisos', [App\Http\Controllers\RoleController::class,'permisos'])
     ->name('admin.roles.permisos')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Ver listado de permisos');
 //Rutas para guardar los datos de la vista de permisos
 Route::put('/admin/rol/{id}/actualizar_permisos', [App\Http\Controllers\RoleController::class,'actualizar_permisos'])
     ->name('admin.roles.actualizar_permisos')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Actualizar permisos');
 
 //-------------------------------------- RUTAS PARA USUARIOS -------------------------------------
 // Rutas para la vista de USUARIOS
 Route::get('/admin/usuarios', [App\Http\Controllers\UsuarioController::class,'index'])
     ->name('admin.usuarios.index')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Ver listado de usuarios');
 
 // Mostrar formulario
 Route::get('/admin/usuarios/create', [App\Http\Controllers\UsuarioController::class,'create'])
     ->name('admin.usuarios.create')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Crear usuarios');
 
 // Guardar (POST SIEMPRE va a /admin/usuarios)
 Route::post('/admin/usuarios', [App\Http\Controllers\UsuarioController::class,'store'])
     ->name('admin.usuarios.store')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Guardar usuarios');
 
 Route::get('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::class,'show'])
     ->name('admin.usuarios.show')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Ver usuario');
 
 Route::get('/admin/usuario/{id}/edit', [App\Http\Controllers\UsuarioController::class,'edit'])
     ->name('admin.usuarios.edit')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Editar usuarios');
 
 Route::put('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::class,'update'])
     ->name('admin.usuarios.update')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Actualizar usuarios');
 
 Route::delete('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::class,'destroy'])
     ->name('admin.usuarios.destroy')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Eliminar usuarios');
 
 Route::post('/admin/usuario/{id}/restaurar', [App\Http\Controllers\UsuarioController::class,'restore'])
     ->name('admin.usuarios.restore')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Restaurar usuarios');
 
 //-------------------------------------- RUTAS PARA CATEGORIAS -------------------------------------
 
 // Guardar (POST SIEMPRE va a /admin/categorias)
 Route::get('/admin/categorias', [App\Http\Controllers\CategoriaController::class,'index'])
     ->name('admin.categorias.index')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Ver listado de categorias');
 //Ruta para crear una nueva categoria
 Route::get('/admin/categorias/create', [App\Http\Controllers\CategoriaController::class,'create'])
     ->name('admin.categorias.create')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Crear categorias');
 //Ruta para guardar los datos de la categoria creada o editada
 Route::post('/admin/categorias', [App\Http\Controllers\CategoriaController::class,'store'])
     ->name('admin.categorias.store')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Guardar categorias');
 //Ruta para mostrar los datos de una categoria por id
 Route::get('/admin/categorias/{id}', [App\Http\Controllers\CategoriaController::class,'show'])
     ->name('admin.categorias.show')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Ver categoria');
 //Ruta para editar una categoria por id
 Route::get('/admin/categorias/{id}/edit', [App\Http\Controllers\CategoriaController::class,'edit'])
     ->name('admin.categorias.edit')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Editar categorias');
 //Ruta para actualizar los datos de una categoria por id
 Route::put('/admin/categorias/{id}', [App\Http\Controllers\CategoriaController::class,'update'])
     ->name('admin.categorias.update')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Actualizar categorias');
 //Ruta para eliminar una categoria por id
 Route::delete('/admin/categorias/{id}', [App\Http\Controllers\CategoriaController::class,'destroy'])
     ->name('admin.categorias.destroy')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Eliminar categorias');
 //Ruta para restaurar una categoria por id solo si es soft delete y esta inactiva
 Route::post('/admin/categorias/{id}/restaurar', [App\Http\Controllers\CategoriaController::class, 'restore'])
     ->name('admin.categorias.restore')
@@ -151,54 +151,53 @@ Route::post('/admin/categorias/{id}/restaurar', [App\Http\Controllers\CategoriaC
 // Listar productos
 Route::get('/admin/productos', [App\Http\Controllers\ProductoController::class,'index'])
     ->name('admin.productos.index')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Ver listado de productos');
 // Crear producto
 Route::get('/admin/productos/create', [App\Http\Controllers\ProductoController::class,'create'])
     ->name('admin.productos.create')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Crear productos');
 // Guardar producto
 Route::post('/admin/productos/create', [App\Http\Controllers\ProductoController::class,'store'])
     ->name('admin.productos.store')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Guardar productos');
 // EDITAR → SIEMPRE ANTES DE {id}
 Route::get('/admin/productos/{id}/edit', [App\Http\Controllers\ProductoController::class,'edit'])
     ->name('admin.productos.edit')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Editar productos');
 // MOSTRAR → SIEMPRE DESPUÉS
 Route::get('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'show'])
     ->name('admin.productos.show')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Ver producto');
 // Actualizar producto
 Route::put('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'update'])
     ->name('admin.productos.update')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Actualizar productos');
 // Eliminar producto
 Route::delete('/admin/productos/{id}', [App\Http\Controllers\ProductoController::class,'destroy'])
     ->name('admin.productos.destroy')
     ->middleware('auth');
 
-
 //--------------------------------------IMAGENES PRODUCTOS----------------------------------------
 //Ruta para mostrar imagenes de un producto por id
 Route::get('/admin/productos/{producto}/imagenes', [App\Http\Controllers\ProductoController::class, 'showImagenes'])
     ->name('admin.productos.imagenes')
-    ->middleware('auth');
+    ->middleware('auth' , 'can:Ver imagenes de productos');
 //Ruta para subir imagenes
 Route::post('/admin/productos/{producto}/uploadimagen', [App\Http\Controllers\ProductoController::class, 'cargaImagen'])
     ->name('admin.productos.uploadimagen')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Subir imagenes de productos');
 //Ruta para eliminar imagen
 Route::delete('/admin/productos/imagen/{imagen}/eliminaimagen', [App\Http\Controllers\ProductoController::class, 'eliminaImagen'])
     ->name('admin.productos.eliminaimagen')
-    ->middleware('auth');
+    ->middleware('auth', 'can:Eliminar imagenes de productos');
 
 //-------------------------------------- RUTAS PARA PEDIDOS/ORDENES -------------------------------------
 // Rutas para la vista de pedidos
-Route::get('/admin/pedidos', [App\Http\Controllers\OrdenController::class,'ordenes_index'])->name('admin.pedidos.index')->middleware('auth');
+Route::get('/admin/pedidos', [App\Http\Controllers\OrdenController::class,'ordenes_index'])->name('admin.pedidos.index')->middleware('auth' , 'can:Ver listado de pedidos');
 // Rutas para crear un nuevo pedido
-Route::get('/admin/pedidos/{id}', [App\Http\Controllers\OrdenController::class,'ordenes_create_envio'])->name('admin.pedidos.create_envio')->middleware('auth');
+Route::get('/admin/pedidos/{id}', [App\Http\Controllers\OrdenController::class,'ordenes_create_envio'])->name('admin.pedidos.create_envio' )->middleware('auth' , 'can:Crear Pedido');
 // Rutas para guardar los datos del pedido
-Route::post('/admin/pedidos/{id}', [App\Http\Controllers\OrdenController::class,'store'])->name('admin.pedidos.store')->middleware('auth');
+Route::post('/admin/pedidos/{id}', [App\Http\Controllers\OrdenController::class,'store'])->name('admin.pedidos.store')->middleware('auth' , 'can:Procesar pedido');
 
 
 

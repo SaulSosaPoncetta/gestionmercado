@@ -40,23 +40,21 @@ class RoleController extends Controller
     }
 
     // Funcion para actualizar los permisos de un rol
-    public function actualizar_permisos(Request $request, $id)
-    {
-        //return response()->json($request->all());
-        $request->validate([    // Validar que los permisos se envien en el request 
-            'permisos' => 'required|array',  // Se requiere un array de permisos
-        ]);
+public function actualizar_permisos(Request $request, $id)
+{
+    $rol = Role::findOrFail($id);
 
-        $rol = Role::find($id); // Encontrar el rol por su ID
-        
-        $permisos = Permission::whereIn('id', $request->permisos)->get(); // Buscar los permisos por ID en la tabla de permisos
+    // Si no viene nada, enviar array vacío
+    $permisosIds = $request->permisos ?? [];
 
-        $rol->syncPermissions($permisos); // Sincronizar los permisos seleccionados con el rol
+    $permisos = Permission::whereIn('id', $permisosIds)->get();
 
-        return redirect()->route('admin.roles.index')
-            ->with('mensaje', 'Permisos actualizados correctamente')
-            ->with('icono', 'success');
-    }
+    $rol->syncPermissions($permisos);
+
+    return redirect()->route('admin.roles.index')
+        ->with('mensaje', 'Permisos actualizados correctamente')
+        ->with('icono', 'success');
+}
 
     // Funcion para guardar un rol
     public function store(Request $request)
