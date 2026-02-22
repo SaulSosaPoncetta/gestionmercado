@@ -288,10 +288,9 @@ Route::fallback(function () {
         if (!auth()->check()) {
             return redirect()->route('login');
         }
-        return response()->view('404', [], 404);
+        return response()->view('errors.404', [], 404);
     }
-
-    return response()->view('404-admin', [], 404);
+    return response()->view('errors.404-admin', [], 404);
 });
 
 
