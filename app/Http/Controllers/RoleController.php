@@ -21,6 +21,29 @@ class RoleController extends Controller
         return view('admin.roles.create');
     }
 
+    // Funcion para ver los permisos de un rol
+    public function permisos($id)
+    {
+        $rol = Role::find($id);
+        $permisos = Permission::all();
+        return view('admin.roles.permisos', compact('rol', 'permisos'));
+    }
+
+    // Funcion para actualizar los permisos de un rol
+    public function actualizar_permisos(Request $request, string $id)
+    {
+        $request->validate([
+            'permisos' => 'required|array',
+        ]);
+
+        $rol = Role::find($id);
+        $rol->syncPermissions($request->permisos);
+
+        return redirect()->route('admin.roles.index')
+            ->with('mensaje', 'Permisos actualizados correctamente')
+            ->with('icono', 'success');
+    }
+
     // Funcion para guardar un rol
     public function store(Request $request)
     {

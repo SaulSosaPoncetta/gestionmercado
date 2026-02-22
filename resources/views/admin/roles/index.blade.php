@@ -33,6 +33,7 @@
                                         <td>{{ $rol->name }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('admin.roles.show', $rol->id) }}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i> Ver</a>
+                                            <a href="{{ route('admin.roles.permisos', $rol->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-shield-check"></i> Permisos</a>
                                             <a href="{{ route('admin.roles.edit', $rol->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Editar</a>
                                             <form action="{{ route('admin.roles.destroy', $rol->id) }}" method="POST" style="display:inline-block" enctype="multipart/form-data">
                                                 @csrf

@@ -13,14 +13,15 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+//-------------------------------------- RUTAS PARA HOME -------------------------------------
+//Rutas para la vista de home
 Route::get('/home', [App\Http\Controllers\AdminController::class,'index'])
        ->name('home')
        ->middleware('auth');
-
+//Rutas para la vista de home admin
 Route::get('/admin', [App\Http\Controllers\AdminController::class,'index'])
     ->name('admin')
     ->middleware('auth');
-
 //-------------------------------------- RUTAS PARA AJUSTES -------------------------------------
 //Rutas para la vista de ajustes
 Route::get('/admin/ajustes', [App\Http\Controllers\AjustesController::class,'index'])
@@ -63,10 +64,17 @@ Route::put('/admin/rol/{id}', [App\Http\Controllers\RoleController::class,'updat
 Route::delete('/admin/rol/{id}', [App\Http\Controllers\RoleController::class,'destroy'])
     ->name('admin.roles.destroy')
     ->middleware('auth');
-
+//-------------------------------- RUTAS PARA PERMISOS -------------------------------------
+//Rutas para la vista de permisos
+Route::get('/admin/rol/{id}/permisos', [App\Http\Controllers\RoleController::class,'permisos'])
+    ->name('admin.roles.permisos')
+    ->middleware('auth');
+//Rutas para guardar los datos de la vista de permisos
+Route::put('/admin/rol/{id}/actualizar_permisos', [App\Http\Controllers\RoleController::class,'actualizar_permisos'])
+    ->name('admin.roles.actualizar_permisos')
+    ->middleware('auth');
 
 //-------------------------------------- RUTAS PARA USUARIOS -------------------------------------
-
 // Rutas para la vista de USUARIOS
 Route::get('/admin/usuarios', [App\Http\Controllers\UsuarioController::class,'index'])
     ->name('admin.usuarios.index')

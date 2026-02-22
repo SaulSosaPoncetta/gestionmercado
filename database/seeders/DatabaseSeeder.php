@@ -16,21 +16,29 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        // User::factory(10)->create();
-        Role::create(['name' => 'super admin','guard_name' => 'web']);
-        Role::create(['name' => 'administrador','guard_name' => 'web']);
-        Role::create(['name' => 'vendedor','guard_name' => 'web']);
-        Role::create(['name' => 'contabilidad','guard_name' => 'web']);   
-        Role::create(['name' => 'operador','guard_name' => 'web']); 
-        Role::create(['name' => 'cliente','guard_name' => 'web']);
+        $this->call(RoleSeeder::class);
 
-        User::create([
+        // User::factory(10)->create();
+        Role::firstOrCreate(['name' => 'SUPER ADMIN','guard_name' => 'web']);
+        Role::firstOrCreate(['name' => 'ADMINISTRADOR','guard_name' => 'web']);
+        Role::firstOrCreate(['name' => 'VENDEDOR','guard_name' => 'web']);
+        Role::firstOrCreate(['name' => 'CONTABILIDAD','guard_name' => 'web']);   
+        Role::firstOrCreate(['name' => 'OPERADOR','guard_name' => 'web']); 
+        Role::firstOrCreate(['name' => 'CLIENTE','guard_name' => 'web']);
+
+        User::firstOrCreate([
             'name' => 'Saul Sosa',
             'email' => 'admin@migestion.com.ar',
             'password' => bcrypt('123456789'),
-        ])->assignRole('super admin');
+        ])->assignRole('SUPER ADMIN');
 
-        Ajuste::create([
+                User::firstOrCreate([
+            'name' => 'Timoteo Sosa',
+            'email' => 'shsp1975servicios@gmail.com',
+            'password' => bcrypt('123456789'),
+        ])->assignRole('CLIENTE');
+
+        Ajuste::firstOrCreate([
             'nombre' => 'Eloisa',
             'descripcion' => 'Tienda Artesanal',
             'sucursal' => 'Olavarria',
