@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Role;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -25,19 +26,32 @@ class RoleController extends Controller
     public function permisos($id)
     {
         $rol = Role::find($id);
-        $permisos = Permission::all();
+        $permisos = Permission::all()->groupBy(function($permiso) {
+            if(stripos($permiso->name, 'admin') !== false) { return 'Ajustes del Administrador:'; }
+            if(stripos($permiso->name, 'ajuste') !== false) { return 'Ajustes del Sistema:'; }
+            if(stripos($permiso->name, 'rol') !== false) { return 'Gestion de Roles:'; }
+            if(stripos($permiso->name, 'permiso') !== false) { return 'Gestion de Permisos:'; }
+            if(stripos($permiso->name, 'usuario') !== false) { return 'Gestion de Usuarios:'; }
+            if(stripos($permiso->name, 'categoria') !== false) { return 'Gestion de Categorias:'; }
+            if(stripos($permiso->name, 'producto') !== false) { return 'Gestion de Productos:'; }
+            if(stripos($permiso->name, 'pedido') !== false) { return 'Gestion de Pedidos:'; }
+        });
         return view('admin.roles.permisos', compact('rol', 'permisos'));
     }
 
     // Funcion para actualizar los permisos de un rol
-    public function actualizar_permisos(Request $request, string $id)
+    public function actualizar_permisos(Request $request, $id)
     {
-        $request->validate([
-            'permisos' => 'required|array',
+        //return response()->json($request->all());
+        $request->validate([    // Validar que los permisos se envien en el request 
+            'permisos' => 'required|array',  // Se requiere un array de permisos
         ]);
 
-        $rol = Role::find($id);
-        $rol->syncPermissions($request->permisos);
+        $rol = Role::find($id); // Encontrar el rol por su ID
+        
+        $permisos = Permission::whereIn('id', $request->permisos)->get(); // Buscar los permisos por ID en la tabla de permisos
+
+        $rol->syncPermissions($permisos); // Sincronizar los permisos seleccionados con el rol
 
         return redirect()->route('admin.roles.index')
             ->with('mensaje', 'Permisos actualizados correctamente')

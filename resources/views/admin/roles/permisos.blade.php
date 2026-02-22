@@ -9,12 +9,12 @@
             <div class="card">
                 <div class="card-header">
                     <h4>Permisos registrados
-                        <a href="{{ route('admin.productos.create') }}" style="float:right" class="btn btn-primary"><i
-                                class="bi bi-plus"></i> Crear nuevo</a>
+                        <!-- <a href="{{-- route('admin.productos.create') --}}" style="float:right" class="btn btn-primary"><i
+                                class="bi bi-plus"></i> Crear nuevo</a> -->
                     </h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.roles.update_permisos', $rol->id) }}" method="POST">
+                    <form action="{{ route('admin.roles.actualizar_permisos', $rol->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="row">
@@ -35,6 +35,7 @@
                                         </div>
                                     @endforeach
                                     <hr>
+                                    <br>
                                 </div>
                             @endforeach
                         </div>
