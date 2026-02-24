@@ -81,36 +81,42 @@ Route::put('/admin/rol/{id}/actualizar_permisos', [App\Http\Controllers\RoleCont
 Route::get('/admin/usuarios', [App\Http\Controllers\UsuarioController::class,'index'])
     ->name('admin.usuarios.index')
     ->middleware('auth' , 'can:Ver listado de usuarios');
-
 // Mostrar formulario
 Route::get('/admin/usuarios/create', [App\Http\Controllers\UsuarioController::class,'create'])
     ->name('admin.usuarios.create')
     ->middleware('auth' , 'can:Crear usuarios');
-
 // Guardar (POST SIEMPRE va a /admin/usuarios)
 Route::post('/admin/usuarios', [App\Http\Controllers\UsuarioController::class,'store'])
     ->name('admin.usuarios.store')
     ->middleware('auth' , 'can:Guardar usuarios');
-
+// Mostrar usuario
 Route::get('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::class,'show'])
     ->name('admin.usuarios.show')
     ->middleware('auth' , 'can:Ver usuario');
-
+// Editar usuario
 Route::get('/admin/usuario/{id}/edit', [App\Http\Controllers\UsuarioController::class,'edit'])
     ->name('admin.usuarios.edit')
     ->middleware('auth' , 'can:Editar usuarios');
-
+// Actualizar usuario
 Route::put('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::class,'update'])
     ->name('admin.usuarios.update')
     ->middleware('auth' , 'can:Actualizar usuarios');
-
+// Eliminar usuario
 Route::delete('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::class,'destroy'])
     ->name('admin.usuarios.destroy')
     ->middleware('auth' , 'can:Eliminar usuarios');
-
+// Restaurar usuario
 Route::post('/admin/usuario/{id}/restaurar', [App\Http\Controllers\UsuarioController::class,'restore'])
     ->name('admin.usuarios.restore')
     ->middleware('auth', 'can:Restaurar usuarios');
+// Perfil usuario
+Route::get('/admin/usuario/{id}/perfil', [App\Http\Controllers\UsuarioController::class,'perfil'])
+    ->name('admin.usuarios.perfil')
+    ->middleware('auth', 'can:Ver perfil de usuario');
+// Actualizar perfil usuario
+Route::put('/admin/usuario/{id}/actualizar_perfil', [App\Http\Controllers\UsuarioController::class,'actualizar_perfil'])
+    ->name('admin.usuarios.actualizar_perfil')
+    ->middleware('auth', 'can:Actualizar perfil de usuario');
 
 //-------------------------------------- RUTAS PARA CATEGORIAS -------------------------------------
 

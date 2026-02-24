@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Ajuste;
 use App\Models\User;
 use App\Models\Role;
 
@@ -30,6 +31,33 @@ class UsuarioController extends Controller
     {
         $roles = Role::all();
         return view('admin.usuarios.create', compact('roles'));
+    }
+    
+    // Muestra el perfil de un usuario
+    public function perfil($id)
+    {
+        $ajuste = Ajuste::first();
+        $usuario = User::find($id);
+        return view('admin.usuarios.perfil', compact('usuario' ,'ajuste'));
+    }
+    // Actualiza el perfil de un usuario
+    public function actualizar_perfil(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
+            'password' => 'nullable|string|min:9|confirmed',
+        ]);
+        $usuario = User::findOrFail($id);
+        $usuario->name = $request->nombre;
+        $usuario->email = $request->email;
+        if($request->password){
+            $usuario->password = bcrypt($request->password);
+        }
+        $usuario->save();
+        return redirect()->route('admin.usuarios.perfil', $id)
+            ->with('mensaje','Perfil actualizado exitosamente')
+            ->with('icono','success');
     }
 
     // Guarda los datos del nuevo usuario
