@@ -109,14 +109,26 @@ Route::delete('/admin/usuario/{id}', [App\Http\Controllers\UsuarioController::cl
 Route::post('/admin/usuario/{id}/restaurar', [App\Http\Controllers\UsuarioController::class,'restore'])
     ->name('admin.usuarios.restore')
     ->middleware('auth', 'can:Restaurar usuarios');
+
 // Perfil usuario
 Route::get('/admin/usuario/{id}/perfil', [App\Http\Controllers\UsuarioController::class,'perfil'])
     ->name('admin.usuarios.perfil')
     ->middleware('auth', 'can:Ver perfil de usuario');
+
 // Actualizar perfil usuario
 Route::put('/admin/usuario/{id}/actualizar_perfil', [App\Http\Controllers\UsuarioController::class,'actualizar_perfil'])
     ->name('admin.usuarios.actualizar_perfil')
     ->middleware('auth', 'can:Actualizar perfil de usuario');
+
+// Perfil usuario
+Route::get('/admin/usuario/{id}/seguridad', [App\Http\Controllers\UsuarioController::class,'seguridad'])
+    ->name('admin.usuarios.seguridad')
+    ->middleware('auth', 'can:Ver seguridad de usuario');
+
+    // Actualizar seguridad usuario
+Route::put('/admin/usuario/{id}/actualizar_seguridad', [App\Http\Controllers\UsuarioController::class,'actualizar_seguridad'])
+    ->name('admin.usuarios.actualizar_seguridad')
+    ->middleware('auth', 'can:Actualizar seguridad de usuario');    
 
 //-------------------------------------- RUTAS PARA CATEGORIAS -------------------------------------
 

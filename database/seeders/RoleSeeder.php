@@ -52,6 +52,8 @@ class RoleSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'Restaurar usuarios'])->syncRoles($super_admin);
         Permission::firstOrCreate(['name' => 'Ver perfil de usuario'])->syncRoles($super_admin);
         Permission::firstOrCreate(['name' => 'Actualizar perfil de usuario'])->syncRoles($super_admin);
+        Permission::firstOrCreate(['name' => 'Ver seguridad de usuario'])->syncRoles($super_admin);
+        Permission::firstOrCreate(['name' => 'Actualizar seguridad de usuario'])->syncRoles($super_admin);
 
         // ======================= CATEGORIAS =======================
         Permission::firstOrCreate(['name' => 'Ver listado de categorias'])->syncRoles($super_admin);

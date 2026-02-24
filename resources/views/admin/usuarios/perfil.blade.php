@@ -51,14 +51,13 @@
             </div>
 
             {{-- COLUMNA FORMULARIO --}}
-            <div class="col-12 col-lg-8">
+            <div class="col-6 col-lg-8">
                 <div class="card">
                     <div class="card-body">
 
                         <form action="{{ route('admin.usuarios.actualizar_perfil', $usuario->id) }}" method="POST">
                             @csrf
                             @method('PUT')
-
                             <div class="row mb-3">
                                 <div class="form-group ">
                                     <label for="name" class="form-label">Nombre</label>

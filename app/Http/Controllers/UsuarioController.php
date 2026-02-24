@@ -40,25 +40,51 @@ class UsuarioController extends Controller
         $usuario = User::find($id);
         return view('admin.usuarios.perfil', compact('usuario' ,'ajuste'));
     }
+
     // Actualiza el perfil de un usuario
     public function actualizar_perfil(Request $request, $id)
     {
+        // return response()->json($request->all());
         $request->validate([
-            'nombre' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-            'password' => 'nullable|string|min:9|confirmed',
+            
         ]);
-        $usuario = User::findOrFail($id);
-        $usuario->name = $request->nombre;
+        $usuario = User::find($id);
+        $usuario->name = $request->name;
         $usuario->email = $request->email;
-        if($request->password){
-            $usuario->password = bcrypt($request->password);
-        }
+        
         $usuario->save();
         return redirect()->route('admin.usuarios.perfil', $id)
             ->with('mensaje','Perfil actualizado exitosamente')
             ->with('icono','success');
     }
+
+    // Muestra la seguridad de un usuario
+    public function seguridad($id)
+    {
+        $ajuste = Ajuste::first();
+        $usuario = User::find($id);
+        return view('admin.usuarios.seguridad', compact('usuario' ,'ajuste'));
+    }
+
+    // Actualiza la seguridad de un usuario
+    public function actualizar_seguridad(Request $request, $id)
+    {
+        // return response()->json($request->all());
+        $request->validate([
+            'password' => 'required|string|min:9|confirmed',
+        ]);
+        $usuario = User::find($id);
+        $usuario->password = bcrypt($request->password);
+        
+        $usuario->save();
+        return redirect()->route('admin.usuarios.seguridad', $id)
+            ->with('mensaje','Seguridad actualizada exitosamente')
+            ->with('icono','success');
+    }
+
+ 
 
     // Guarda los datos del nuevo usuario
     public function store(Request $request)

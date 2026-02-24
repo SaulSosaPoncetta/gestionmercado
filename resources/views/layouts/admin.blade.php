@@ -118,13 +118,14 @@
                                 </li>
 
                                 <li class="submenu-item">
-                                    <a href="#" class="submenu-link">Seguridad</a>
+                                    <a href="{{ route('admin.usuarios.seguridad', Auth::user()->id) }}"
+                                        class="submenu-link">Seguridad</a>
                                 </li>
 
                                 <li class="submenu-item">
                                     <a href="{{ route('logout') }}" class="submenu-link"
                                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        <i class="bi bi-box-arrow-right"></i>
+                                        
                                         Cerrar sesión
                                     </a>
                                 </li>
