@@ -73,20 +73,24 @@ class UsuarioController extends Controller
     {
         // return response()->json($request->all());
         $request->validate([
-            'password' => 'required|string|min:9|confirmed',
+                'current_password' => 'required|string',
+                'password' => 'required|string|min:9|confirmed',
         ]);
         $usuario = User::find($id);
+        if (!\Hash::check($request->current_password, $usuario->password)) {
+            return redirect()->back()
+                ->with('mensaje','La contraseña actual no coincide')
+                ->with('icono','error');
+        }
         $usuario->password = bcrypt($request->password);
-        
         $usuario->save();
+        
         return redirect()->route('admin.usuarios.seguridad', $id)
             ->with('mensaje','Seguridad actualizada exitosamente')
             ->with('icono','success');
     }
 
- 
-
-    // Guarda los datos del nuevo usuario
+     // Guarda los datos del nuevo usuario
     public function store(Request $request)
     {
        //return response()->json($request->all());

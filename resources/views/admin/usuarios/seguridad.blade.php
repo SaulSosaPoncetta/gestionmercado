@@ -60,20 +60,35 @@
                             <div class="form-group">
                                 <label for="current_password" class="form-label">Contraseña actual</label>
                                 <input type="password" class="form-control" id="current_password" name="current_password"
-                                    placeholder="Ingrese su contraseña actual..." required>
+                                    placeholder="Ingrese su contraseña actual..." value="" required>
+                                    @error('current_password')
+                                        <div role="alert">
+                                            <small style="color: red">{{ $message }}</small>
+                                        </div>
+                                    @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="password"> Nueva Contraseña</label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Ingrese su nueva contraseña..." required>
+                                    placeholder="Ingrese su nueva contraseña..." value=" " required>
+                                    @error('password')
+                                        <div role="alert">
+                                            <small style="color: red">{{ $message }}</small>
+                                        </div>
+                                    @enderror
                             </div>
 
                             <div class="form-group">
                                 <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
                                 <input type="password" class="form-control" id="password_confirmation"
-                                    name="password_confirmation" placeholder="Confirmar Contraseña..." value=""
+                                    name="password_confirmation" placeholder="Confirmar Contraseña..." value=" "
                                     required>
+                                    @error('password_confirmation')
+                                        <div role="alert">
+                                            <small style="color: red">{{ $message }}</small>
+                                        </div>
+                                    @enderror
                             </div>
 
                             <div class="form-group">
