@@ -8,8 +8,8 @@
                     <h2>Bienvenido: {{ Auth::user()->name }}</h2>
 
                     <!--  <li class="breadcrumb-item active">
-                                                                {{ Auth::user()->roles?->pluck('name')->implode(', ') ?? 'Sin rol' }}
-                                                            </li>-->
+                                                                        {{ Auth::user()->roles?->pluck('name')->implode(', ') ?? 'Sin rol' }}
+                                                                    </li>-->
                 @else
                     <h2>No autenticado</h2>
                 @endauth
@@ -240,14 +240,37 @@
         </div>
         <br>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h2 class="card-title">Porcentaje de pedidos por estado</h2>
+                        <h2 class="card-title">Distribución de pedidos segun su estado</h2>
                     </div>
                     <div class="card-body">
                         <div id="chart_distribucion_categorias"></div>
                     </div>
+                    <h2 class="card-title text-center">Total: {{ $total_pedidos }} pedido(s).</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2 class="card-title">Porcentaje de productos con stock bajo</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="chart4"></div>
+                    </div>
+                    <h2 class="card-title text-center">Cant. de productos: {{ $total_productos }} articulos.</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2 class="card-title">Porcentaje de productos con stock exceso</h2>
+                    </div>
+                    <div class="card-body">
+                        <div id="chart5"></div>
+                    </div>
+                    <h2 class="card-title text-center">Cant. de productos: {{ $total_productos }} articulos.</h2>
                 </div>
             </div>
         </div>
@@ -304,14 +327,15 @@
             chartPedidos.render();
 
             // Grafico de torta
-            
             var options3 = {
-                series: [{{$total_pedidos_nuevos}},{{$total_pedidos_procesados}},  1],
+                series: [{{ $total_pedidos_nuevos }}, {{ $total_pedidos_procesados }}, 1],
                 chart: {
                     width: 380,
                     type: 'pie',
                 },
-                labels: ['Pedidos Nuevos', 'Pedidos Procesados', 'Pedidos Enviados', 'Pedidos Entregados', 'Pedidos Completados'],
+                labels: ['Pedidos Nuevos', 'Pedidos Procesados', 'Pedidos Enviados', 'Pedidos Entregados',
+                    'Pedidos Completados'
+                ],
                 responsive: [{
                     breakpoint: 480,
                     options: {
@@ -325,7 +349,49 @@
                 }]
             };
 
-            var chart_distribucion_categorias = new ApexCharts(document.querySelector("#chart_distribucion_categorias"), options3);
+            var chart_distribucion_categorias = new ApexCharts(document.querySelector("#chart_distribucion_categorias"),
+                options3);
             chart_distribucion_categorias.render();
+
+            // Grafico Radial
+            var options4 = {
+                series: [{{ $stockBajoPorcentaje }}],
+                chart: {
+                    height: 210,
+                    type: 'radialBar',
+                },
+                colors: ['#28a745'],
+                plotOptions: {
+                    radialBar: {
+                        hollow: {
+                            size: '70%',
+                        }
+                    },
+                },
+                labels: ['Stock Bajo'],
+            };
+
+            var chart4 = new ApexCharts(document.querySelector("#chart4"), options4);
+            chart4.render();
+
+            // Grafico Radial
+            var options5 = {
+                series: [{{ $stockMaxPorcentaje }}],
+                chart: {
+                    height: 210,
+                    type: 'radialBar',
+                },
+                plotOptions: {
+                    radialBar: {
+                        hollow: {
+                            size: '70%',
+                        }
+                    },
+                },
+                labels: ['Stock Exceso'],
+            };
+
+            var chart5 = new ApexCharts(document.querySelector("#chart5"), options5);
+            chart5.render();
         </script>
     @endsection

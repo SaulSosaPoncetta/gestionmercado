@@ -28,7 +28,7 @@ class AdminController extends Controller
         $total_productos = Producto::count(); // Contar el total de productos
 
         $total_pedidos = Orden::count(); // Contar el total de pedidos nuevos / sin procesar
-        
+
         $total_pedidos_nuevos = Orden::where('estado_orden', 'Procesando')->count(); // Contar el total de pedidos nuevos
         $total_pedidos_procesados = Orden::where('estado_orden', 'Enviado')->count(); // Contar el total de pedidos procesados
         $total_pedidos_enviados = Orden::where('estado_orden', 'Completado')->count(); // Contar el total de pedidos enviados
@@ -73,6 +73,17 @@ class AdminController extends Controller
         //print_r($pedidos_datos); // Verificar los datos obtenidos
         //die(); // Detener la ejecución para revisar los datos
         
+        // Limites stock
+        $limiteStockMin = 10; // Definir el límite de stock bajo
+        $limiteStockMax = 30; // Definir el límite de stock alto
+
+        $stockBajo = Producto::where('stock', '<', $limiteStockMin)->count(); // Contar el total de productos con stock bajo
+        $stockMax = Producto::where('stock', '>', $limiteStockMax)->count(); // Contar el total de productos con stock exceso
+
+        // Porcentajes de stock maximo y minimo del total de productos
+        $stockBajoPorcentaje = round(($stockBajo / $total_productos) * 100, 2); // Calcular el porcentaje de productos con stock bajo
+        $stockMaxPorcentaje = round(($stockMax / $total_productos) * 100, 2); // Calcular el porcentaje de productos con stock exceso
+
 
         // Distribución de pedidos por categoría
         $categorias = Orden::select(
@@ -103,6 +114,11 @@ class AdminController extends Controller
                                         'usuarios_datos',      // Datos para el gráfico de usuarios registrados por mes
                                         'pedidos_datos',      // Datos para el gráfico de pedidos registrados por mes
                                         'categorias_datos',      // Datos para el gráfico de distribución de pedidos por categoría
+                                        'stockBajo',      // Total de productos con stock bajo
+                                        'stockMax',      // Total de productos con stock exceso
+                                        'stockBajoPorcentaje',      // Porcentaje de productos con stock bajo
+                                        'stockMaxPorcentaje',      // Porcentaje de productos con stock exceso
+
 
                                         //'total_clientes',      // Mostrar el total de clientes
                                         //'total_empleados',      // Mostrar el total de empleados  
