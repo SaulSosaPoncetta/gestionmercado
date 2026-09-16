@@ -3,28 +3,21 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
-use App\Models\Ajuste;
+use Illuminate\Support\Facades\Schema;   // 👈 ESTA LÍNEA FALTABA
 use Illuminate\Support\Facades\View;
-
+use App\Models\Ajuste;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
+	    public function register(): void
+		        {
+				    }
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        $ajuste = Ajuste::first();
-
-        View::share('ajuste', $ajuste);
-    }
+	        public function boot(): void
+			    {
+				            if (Schema::hasTable('ajustes')) {
+						                $ajuste = Ajuste::first();
+								            View::share('ajuste', $ajuste);
+								        }
+					        }
 }
