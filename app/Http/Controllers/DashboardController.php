@@ -49,10 +49,18 @@ class DashboardController extends Controller
         
     }
    
-    public function misventas()
+        public function misventas()
     {
         if(Auth::check()){
-            return view('web.misventas');
+            $ordenes = Orden::where('vendedor_id', Auth::id())
+                ->with('detalles.producto', 'usuario')
+                ->latest()
+                ->paginate(10);
+
+            $ajuste = Ajuste::first();
+            $comision = $ajuste->comision ?? 0;
+
+            return view('web.misventas', compact('ordenes', 'ajuste', 'comision'));
         }
         else{
             return redirect('/authloginweb');

@@ -18,6 +18,7 @@ class Ajuste extends Model
         'imagen_login',
         'email',
         'moneda',
+        'comision',
         'pagina_web',
     ];
 }

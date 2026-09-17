@@ -128,6 +128,21 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-2">
+                                        <div class="form-goup">
+                                            <label for="comision" class="form-label">Comisión % (*)</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="bi bi-percent"></i></span>
+                                                <input type="number" step="0.01" min="0" max="100" name="comision" id="comision"
+                                                    class="form-control @error('comision') is-invalid @enderror"
+                                                    placeholder="Ej: 10"
+                                                    value="{{ old('comision', $ajuste->comision ?? 0) }}" required>
+                                                @error('comision')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-goup">
                                             <label for="pagina_web" class="form-label">Pagina Web (Opcional)</label>

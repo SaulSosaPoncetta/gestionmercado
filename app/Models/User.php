@@ -1,18 +1,18 @@
 <?php
-
+ 
 namespace App\Models;
-
+ 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-
+ 
 class User extends Authenticatable
 {    
     use HasFactory, Notifiable, HasRoles, SoftDeletes;
-
+ 
     /**
      * The attributes that are mass assignable.
      *
@@ -24,7 +24,7 @@ class User extends Authenticatable
         'password',
         'estado',
     ];
-
+ 
  
     /**
      * The attributes that are mass assignable.
@@ -34,7 +34,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+ 
     /**
      * Get the attributes that should be cast.
      *
@@ -47,20 +47,25 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
+ 
     // ------------------------------ relaciones entre tablas -------------------------------
     public function productoFavoritos() 
     {
         return $this->hasMany(ProductoFavorito::class, 'usuario_id'); //un usuario puede tener muchos producto_favoritos
     }
-
+ 
     public function carritos()
     {
         return $this->hasMany(Carrito::class, 'usuario_id'); //un usuario puede tener muchos carritos
     }
-
+ 
     public function ordenes()
     {
         return $this->hasMany(Orden::class, 'usuario_id'); //un usuario puede tener muchas ordenes
+    }
+ 
+    public function productos()
+    {
+        return $this->hasMany(Producto::class, 'vendedor_id'); //un usuario puede tener muchos productos publicados como vendedor
     }
 }

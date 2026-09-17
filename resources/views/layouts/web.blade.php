@@ -173,6 +173,14 @@
                     <i class="bi bi-heart me-2"></i>
                     <span>Mis Favoritos</span>
                   </a>
+                  <a class="dropdown-item d-flex align-items-center" href="{{route('web.mis_productos.index')}}">
+                    <i class="bi bi-shop me-2"></i>
+                    <span>Mis Productos</span>
+                  </a>
+                  <a class="dropdown-item d-flex align-items-center" href="{{route('web.misventas')}}">
+                    <i class="bi bi-graph-up me-2"></i>
+                    <span>Mis Ventas</span>
+                  </a>
                   <a class="dropdown-item d-flex align-items-center" href="{{route('web.ajustes')}}">
                     <i class="bi bi-gear me-2"></i>
                     <span>Configuraciones</span>

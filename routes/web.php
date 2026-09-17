@@ -269,8 +269,20 @@ Route::post('/authregistronweb', [App\Http\Controllers\DashboardController::clas
 
 //------------------------ RUTAS PARA MISVENTAS--------------------------------------------
 Route::get('/misventas', [App\Http\Controllers\DashboardController::class,'misventas'])->name('web.misventas');
-    
 
+//------------------------ RUTAS PARA MIS PRODUCTOS (VENDEDOR)--------------------------------------------
+Route::middleware('auth')->group(function () {
+    Route::get('/mis-productos', [App\Http\Controllers\MisProductosController::class, 'index'])->name('web.mis_productos.index');
+    Route::get('/mis-productos/create', [App\Http\Controllers\MisProductosController::class, 'create'])->name('web.mis_productos.create');
+    Route::post('/mis-productos', [App\Http\Controllers\MisProductosController::class, 'store'])->name('web.mis_productos.store');
+    Route::get('/mis-productos/{id}/edit', [App\Http\Controllers\MisProductosController::class, 'edit'])->name('web.mis_productos.edit');
+    Route::put('/mis-productos/{id}', [App\Http\Controllers\MisProductosController::class, 'update'])->name('web.mis_productos.update');
+    Route::delete('/mis-productos/{id}', [App\Http\Controllers\MisProductosController::class, 'destroy'])->name('web.mis_productos.destroy');
+});    
+
+    Route::get('/mis-productos/{id}/imagenes', [App\Http\Controllers\MisProductosController::class, 'imagenes'])->name('web.mis_productos.imagenes');
+    Route::post('/mis-productos/{id}/imagenes', [App\Http\Controllers\MisProductosController::class, 'cargaImagen'])->name('web.mis_productos.cargaimagen');
+    Route::delete('/mis-productos/imagenes/{id}', [App\Http\Controllers\MisProductosController::class, 'eliminaImagen'])->name('web.mis_productos.eliminaimagen');
 
 //------------------------ RUTA PARA BARRA DE BUSQUEDA-----------------------------------------
 Route::get('/buscar', [App\Http\Controllers\WebController::class,'buscar_producto'])->name('web.buscar');
@@ -286,13 +298,13 @@ Route::delete('/favoritos/{id}', [App\Http\Controllers\ProductoFavoritoControlle
 //-------------------------RUTAS PARA PASARELAS DE PAGOS--------------------------------
 //-------------------------         PAYPAL          ------------------------------------
 // realiza el pago con paypal
-Route::post('/paypal/pago', [App\Http\Controllers\PayPalController::class,'pago'])->name('web.paypal.paypalpago');
+Route::post('/paypal/pago', [App\Http\Controllers\PaypalController::class,'pago'])->name('web.paypal.paypalpago');
 // procesa el pago con paypal
-Route::get('/paypal/gracias', [App\Http\Controllers\PayPalController::class,'gracias'])->name('web.paypal.paypalgracias');
+Route::get('/paypal/gracias', [App\Http\Controllers\PaypalController::class,'gracias'])->name('web.paypal.paypalgracias');
 // completa y guarda la orden en la base de datos
-Route::get('/paypal/orden_completada/{id}', [App\Http\Controllers\PayPalController::class,'orden_completada'])->name('web.paypal.ordencompletada');
+Route::get('/paypal/orden_completada/{id}', [App\Http\Controllers\PaypalController::class,'orden_completada'])->name('web.paypal.ordencompletada');
 // cancela el pago con paypal
-Route::get('/paypal/cancelar', [App\Http\Controllers\PayPalController::class,'cancelar_pago'])->name('web.paypal.paypalcancelar_pago');
+Route::get('/paypal/cancelar', [App\Http\Controllers\PaypalController::class,'cancelar_pago'])->name('web.paypal.paypalcancelar_pago');
 
 
 //-------------------------         MERCADOPAGO          ------------------------------------

@@ -127,6 +127,11 @@
                             <div class="quantity-left">Unicamente {{ $producto->stock }} unidades en stock</div>
                         </div>
 
+                        <div class="seller-info" style="margin: 10px 0;">
+                            <i class="bi bi-shop"></i>
+                            Vendido por: <strong>{{ $producto->vendedor->name ?? $ajuste->nombre }}</strong>
+                        </div>
+
                         <!-- Product Variants -->
                         <div class="variant-section">
                             <div class="color-selection">

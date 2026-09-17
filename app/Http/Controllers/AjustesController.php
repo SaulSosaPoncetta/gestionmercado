@@ -41,6 +41,7 @@ class AjustesController extends Controller
             
             'email' => 'required|email|max:255',
             'moneda' => 'required|string|max:10',
+            'comision' => 'required|numeric|min:0|max:100',
             'pagina_web' => 'nullable|url|max:255',
         ];
 
@@ -63,7 +64,8 @@ class AjustesController extends Controller
         $ajuste->direccion = $request->direccion;
         $ajuste->telefono = $request->telefono;
         $ajuste->email = $request->email;
-        $ajuste->moneda = $request->moneda; 
+        $ajuste->moneda = $request->moneda;
+        $ajuste->comision = $request->comision; 
         $ajuste->pagina_web = $request->pagina_web;
 
         if ($request->hasFile('logo')){
