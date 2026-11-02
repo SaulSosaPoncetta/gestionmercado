@@ -7,7 +7,7 @@
         <h1 class="mb-2 mb-lg-0">Crear cuenta</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="{{ url('/') }}">Inicio</a></li>
+            <li><a href="{{ route('web.index') }}">Inicio</a></li>
             
           </ol>
         </nav>

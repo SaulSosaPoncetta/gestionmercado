@@ -124,7 +124,7 @@
         <div class="d-flex py-3 align-items-center justify-content-between">
 
           <!-- Logo -->
-          <a href="{{ url('/') }}" class="logo d-flex align-items-center">
+          <a href="{{ route('web.index') }}" class="logo d-flex align-items-center">
             
             <!-- DESCOMENTAR PARA PONER LOGO EN IMAGEN-->
             <!-- <img src="assets/img/logo.webp" alt=""> -->
@@ -239,7 +239,7 @@
       <div class="container-fluid container-xl position-relative">
         <nav id="navmenu" class="navmenu">
           <ul>
-            <li><a href="{{url('/')}}" class="active">Inicio</a></li>
+            <li><a href="{{ route('web.index') }}" class="active">Inicio</a></li>
             
             <li><a href="category.html">Categorias</a></li>
             <li><a href="product-details.html">Detalle Producto</a></li>
@@ -858,7 +858,7 @@
         <div class="row gy-4">
           <div class="col-lg-4 col-md-6">
             <div class="footer-widget footer-about">
-              <a href="{{url('/')}}" class="logo">
+              <a href="{{ route('web.index') }}" class="logo">
                 <span class="sitename">{{ $ajuste->nombre }}</span>
               </a>
               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in nibh vehicula, facilisis magna ut, consectetur lorem. Proin eget tortor risus.</p>

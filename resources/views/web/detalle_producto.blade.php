@@ -7,7 +7,7 @@
             <h1 class="mb-2 mb-lg-0"> Detalle del producto: {{ $producto->nombre }}</h1>
             <nav class="breadcrumbs">
                 <ol>
-                    <li><a href="{{ url('/') }}">Inicio</a></li>
+                    <li><a href="{{ route('web.index') }}">Inicio</a></li>
 
                     <!-- Enlace a la pagina de ventas -->
                     <!-- <li><a href="{{-- route('web.carrito') --}}"> Mis Ventas</a></li> -->

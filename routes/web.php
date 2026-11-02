@@ -9,9 +9,9 @@ use App\Http\Controllers\WebController;
 
 Auth::routes();
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+// La landing vive en la raíz; si ya hay sesión, LandingController@index redirige al sistema
+Route::get('/', [App\Http\Controllers\LandingController::class, 'index'])->name('landing.index');
+Route::get('/landing', fn () => redirect()->route('landing.index'));
 
 //-------------------------------------- RUTAS PARA HOME -------------------------------------
 //Rutas para la vista de home
@@ -221,7 +221,8 @@ Route::post('/admin/pedidos/{id}', [App\Http\Controllers\OrdenController::class,
 
 //////////////////////////////////////////// RUTAS PARA LA WEB //////////////////////////////////
 //------------------------ RUTAS PARA PAGINA DE INICIO O HOME-----------------------------
-Route::get('/', [App\Http\Controllers\WebController::class,'index'])->name('web.index');
+// La tienda pública vive en /tienda (el nombre de ruta web.index se mantiene)
+Route::get('/tienda', [App\Http\Controllers\WebController::class,'index'])->name('web.index');
 
 //------------------------ RUTAS PARA DETALLE PRODUCTO------------------------------------
 Route::get('/producto/{id}', [App\Http\Controllers\ProductoController::class,'detalle_producto'])->name('web.detalle_producto');
